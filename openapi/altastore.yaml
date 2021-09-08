@@ -1,0 +1,827 @@
+openapi: 3.0.3
+info:
+  title: Alta Online Store
+  description: Alta Online Store is blablabla
+  version: 1.0.0
+  contact:
+    name: Alta Company
+    email: tegara946@gmail.com
+  license:
+    name: APACHE 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+  - description: Server Alta Store API
+    url: https://{environment}.altastore.id/api/v1
+    variables:
+      environment:
+        default: dev
+        enum:
+          - dev
+          - prod
+paths:
+  #######################################################
+  #
+  #  CUSTOMERS
+  #
+  #######################################################
+  /customers/register:
+    post:
+      tags:
+        - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerSchema'
+      responses:
+        '200':
+          $ref: '#/components/responses/registerSuccess'
+        '400':
+          $ref: '#/components/responses/registerFail'
+  /customers/login:
+    post:
+      tags:
+        - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: mamangjarwo@gmail.com
+                password:
+                  type: string
+                  example: asdfqwer
+      responses:
+        '200':
+          $ref: '#/components/responses/loginSuccess'
+        '400':
+          $ref: '#/components/responses/loginFail'
+  /customers:
+    get:
+      tags:
+        - Customers
+      responses:
+        '200':
+          $ref: '#/components/responses/getAllCustomerSuccess'
+        '400':
+          $ref: '#/components/responses/getAllCustomerFail'
+  /customers/{id}:
+    get:
+      tags:
+        - Customers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+            example: 1
+          required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/getCustomerSuccess'
+        '400':
+          $ref: '#/components/responses/getCustomerFail'
+    put:
+      tags:
+        - Customers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+            example: 1
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerSchema'
+      responses:
+        '200':
+          $ref: '#/components/responses/updateCustomerSuccess'
+        '400':
+          $ref: '#/components/responses/updateCustomerFail'
+    delete:
+      tags:
+        - Customers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+            example: 1
+          required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/deleteCustomerSuccess'
+        '400':
+          $ref: '#/components/responses/deleteCustomerFail'
+  #######################################################
+  #
+  #  PRODUCTS
+  #
+  #######################################################
+  /products:
+    post:
+      tags:
+        - Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductSchema'
+      responses:
+        '200':
+          $ref: '#/components/responses/createProductSuccess'
+        '400':
+          $ref: '#/components/responses/createProductFail'
+    get:
+      tags:
+        - Products
+      responses:
+        '200':
+          $ref: '#/components/responses/getAllProductSuccess'
+        '400':
+          $ref: '#/components/responses/getAllProductFail'
+  /products/{id}:
+    get:
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+            example: 1
+          required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/getProductSuccess'
+        '400':
+          $ref: '#/components/responses/getProductFail'
+    put:
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+            example: 1
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductSchema'
+      responses:
+        '200':
+          $ref: '#/components/responses/updateProductSuccess'
+        '400':
+          $ref: '#/components/responses/updateProductFail'
+    delete:
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+            example: 1
+          required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/deleteProductSuccess'
+        '400':
+          $ref: '#/components/responses/deleteProductFail'
+  #######################################################
+  #
+  #  CART
+  #
+  #######################################################
+  /carts:
+    post:
+      tags:
+        - Carts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartSchema'
+      responses:
+        '200':
+          $ref: '#/components/responses/createCartSuccess'
+        '400':
+          $ref: '#/components/responses/createCartFail'
+    get:
+      tags:
+        - Carts
+      responses:
+        '200':
+          $ref: '#/components/responses/getAllCartSuccess'
+        '400':
+          $ref: '#/components/responses/getAllCartFail'
+  /carts/{id}:
+    get:
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+            example: 1
+          required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/getCartSuccess'
+        '400':
+          $ref: '#/components/responses/getCartFail'
+    put:
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+            example: 1
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartSchema'
+      responses:
+        '200':
+          $ref: '#/components/responses/updateCartSuccess'
+        '400':
+          $ref: '#/components/responses/updateCartFail'
+    delete:
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+            example: 1
+          required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/deleteCartSuccess'
+        '400':
+          $ref: '#/components/responses/deleteCartFail'
+components:
+  responses:
+    ####################################
+    #    RESPONSE REGISTER
+    ####################################
+    registerSuccess:
+      description: success register
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Register Success
+    registerFail:
+      description: fail to register
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Register
+    ####################################
+    #    RESPONSE LOGIN
+    ####################################
+    loginSuccess:
+      description: success login
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Login Success
+    loginFail:
+      description: fail to login
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Login
+    ####################################
+    #    RESPONSE GET ALL CUSTOMER
+    ####################################
+    getAllCustomerSuccess:
+      description: success get all customer
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success get all customer
+              data:
+                $ref: '#/components/schemas/ArrayOfCustomerSchema'
+    getAllCustomerFail:
+      description: fail to get all customer
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Get All Customer
+    ####################################
+    #    RESPONSE GET CUSTOMER
+    ####################################
+    getCustomerSuccess:
+      description: success get customer
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success get customer
+              data:
+                $ref: '#/components/schemas/CustomerSchema'
+    getCustomerFail:
+      description: fail to get customer
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Get Customer
+    ####################################
+    #    RESPONSE UPDATE CUSTOMER
+    ####################################
+    updateCustomerSuccess:
+      description: success update customer
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success Update Customer
+    updateCustomerFail:
+      description: fail to update customer
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Update Customer
+    ####################################
+    #    RESPONSE DELETE CUSTOMER
+    ####################################
+    deleteCustomerSuccess:
+      description: success delete customer
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success Delete Customer
+    deleteCustomerFail:
+      description: fail to delete customer
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Delete Customer
+    ####################################
+    #    RESPONSE CREATE PRODUCT
+    ####################################
+    createProductSuccess:
+      description: success create product
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Creare Product Success
+    createProductFail:
+      description: fail to create product
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Create Product
+    ####################################
+    #    RESPONSE GET ALL PRODUCT
+    ####################################
+    getAllProductSuccess:
+      description: success get all product
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success get all product
+              data:
+                $ref: '#/components/schemas/ArrayOfProductSchema'
+    getAllProductFail:
+      description: fail to get all product
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Get All Product
+    ####################################
+    #    RESPONSE GET PRODUCT
+    ####################################
+    getProductSuccess:
+      description: success get product
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success get product
+              data:
+                $ref: '#/components/schemas/ProductsSchema'
+    getProductFail:
+      description: fail to get product
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Get Product
+    ####################################
+    #    RESPONSE UPDATE PRODUCT
+    ####################################
+    updateProductSuccess:
+      description: success update product
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success Update Product
+    updateProductFail:
+      description: fail to update product
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Update Product
+    ####################################
+    #    RESPONSE DELETE PRODUCT
+    ####################################
+    deleteProductSuccess:
+      description: success delete product
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success Delete Product
+    deleteProductFail:
+      description: fail to delete product
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Delete Product
+    ####################################
+    #    RESPONSE CREATE CART
+    ####################################
+    createCartSuccess:
+      description: success create cart
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Creare Cart Success
+    createCartFail:
+      description: fail to create cart
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Create Cart
+    ####################################
+    #    RESPONSE GET ALL CART
+    ####################################
+    getAllCartSuccess:
+      description: success get all cart
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success get all cart
+              data:
+                $ref: '#/components/schemas/ArrayOfCartSchema'
+    getAllCartFail:
+      description: fail to get all cart
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Get All Cart
+    ####################################
+    #    RESPONSE GET CART
+    ####################################
+    getCartSuccess:
+      description: success get cart
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success get cart
+              data:
+                $ref: '#/components/schemas/CartsSchema'
+    getCartFail:
+      description: fail to get cart
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Get Cart
+    ####################################
+    #    RESPONSE UPDATE CART
+    ####################################
+    updateCartSuccess:
+      description: success update cart
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success Update Cart
+    updateCartFail:
+      description: fail to update cart
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Update Cart
+    ####################################
+    #    RESPONSE DELETE CART
+    ####################################
+    deleteCartSuccess:
+      description: success delete cart
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success Delete Cart
+    deleteCartFail:
+      description: fail to delete cart
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: fail
+              message:
+                type: string
+                example: Fail to Delete Cart
+  schemas:
+    ####################################
+    #    CUSTOMER SCHEMA
+    ####################################
+    CustomerSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Boboboy Pratama
+        email:
+          type: string
+          example: boboboy.pratama@gmail.com
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        password:
+          type: string
+          example: asdf123
+    ####################################
+    #    ARRAY OF CUSTOMER SCHEMA
+    ####################################
+    ArrayOfCustomerSchema:
+      type: array
+      items:
+        $ref: '#/components/schemas/CustomerSchema'
+    ####################################
+    #    PRODUCT SCHEMA
+    ####################################
+    ProductSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Sabun Wing
+        description:
+          type: string
+          example: ini adalah sabun wing
+        category:
+          type: string
+          example: alat mandi
+        quantity:
+          type: integer
+          example: 10
+    ####################################
+    #    ARRAY OF PRODUCT SCHEMA
+    ####################################
+    ArrayOfProductSchema:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProductSchema'
+    ####################################
+    #    CART SCHEMA
+    ####################################
+    CartSchema:
+      type: object
+      properties:
+        customer_id:
+          type: integer
+          example: 1
+        cart_detail_id:
+          type: integer
+          example: 1
+    ####################################
+    #    ARRAY OF CART SCHEMA
+    ####################################
+    ArrayOfCartSchema:
+      type: array
+      items:
+        $ref: '#/components/schemas/CartSchema'
