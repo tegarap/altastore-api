@@ -31,7 +31,9 @@
   "paths": {
     "/customers/register": {
       "post": {
-        "tags": ["Customers"],
+        "tags": [
+          "Customers"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -43,7 +45,7 @@
         },
         "responses": {
           "200": {
-            "$ref" :  "#/components/responses/registerSuccess"
+            "$ref": "#/components/responses/registerSuccess"
           },
           "400": {
             "$ref": "#/components/responses/registerFail"
@@ -53,7 +55,9 @@
     },
     "/customers/login": {
       "post": {
-        "tags": ["Customers"],
+        "tags": [
+          "Customers"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -75,7 +79,29 @@
         },
         "responses": {
           "200": {
-            "$ref" :  "#/components/responses/Response200"
+            "$ref": "#/components/responses/Response200"
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400"
+          }
+        }
+      }
+    },
+    "/customers": {
+      "get": {
+        "tags": [
+          "Customers"
+        ],
+        "responses": {
+          "200": {
+            "description": "get all customers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayOfCustomerSchema"
+                }
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/Response400"
@@ -85,16 +111,20 @@
     },
     "/customers/{id}": {
       "get": {
-        "tags": ["Customers"],
-        "parameters": [{
-          "in": "path",
-          "name": "id",
-          "schema": {
-            "type": "number",
-            "example": 1
-          },
-          "required": true
-        }],
+        "tags": [
+          "Customers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "get customer by id",
@@ -112,16 +142,20 @@
         }
       },
       "put": {
-        "tags": ["Customers"],
-        "parameters": [{
-          "in": "path",
-          "name": "id",
-          "schema": {
-            "type": "number",
-            "example": 1
-          },
-          "required": true
-        }],
+        "tags": [
+          "Customers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -133,7 +167,7 @@
         },
         "responses": {
           "200": {
-            "$ref" :  "#/components/responses/Response200"
+            "$ref": "#/components/responses/Response200"
           },
           "400": {
             "$ref": "#/components/responses/Response400"
@@ -141,19 +175,23 @@
         }
       },
       "delete": {
-        "tags": ["Customers"],
-        "parameters": [{
-          "in": "path",
-          "name": "id",
-          "schema": {
-            "type": "number",
-            "example": 1
-          },
-          "required": true
-        }],
+        "tags": [
+          "Customers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
-            "$ref" :  "#/components/responses/Response200"
+            "$ref": "#/components/responses/Response200"
           },
           "400": {
             "$ref": "#/components/responses/Response400"
@@ -161,21 +199,23 @@
         }
       }
     },
-    "/books": {
+    "/products": {
       "post": {
-        "tags": ["Books"],
+        "tags": [
+          "Products"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BookSchema"
+                "$ref": "#/components/schemas/ProductSchema"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "$ref" :  "#/components/responses/Response200"
+            "$ref": "#/components/responses/Response200"
           },
           "400": {
             "$ref": "#/components/responses/Response400"
@@ -183,14 +223,16 @@
         }
       },
       "get": {
-        "tags": ["Books"],
+        "tags": [
+          "Products"
+        ],
         "responses": {
           "200": {
-            "description": "get all books",
+            "description": "get all products",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref" :  "#/components/schemas/ArrayOfBookSchema"
+                  "$ref": "#/components/schemas/ArrayOfProductSchema"
                 }
               }
             }
@@ -201,25 +243,29 @@
         }
       }
     },
-    "/books/{id}": {
+    "/products/{id}": {
       "get": {
-        "tags": ["Books"],
-        "parameters": [{
-          "in": "query",
-          "name": "id",
-          "schema": {
-            "type": "number",
-            "example": 1
-          },
-          "required": true
-        }],
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
-            "description": "get all books",
+            "description": "get all products",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref" :  "#/components/schemas/BookSchema"
+                  "$ref": "#/components/schemas/ProductSchema"
                 }
               }
             }
@@ -230,28 +276,32 @@
         }
       },
       "put": {
-        "tags": ["Books"],
-        "parameters": [{
-          "in": "path",
-          "name": "id",
-          "schema": {
-            "type": "number",
-            "example": 1
-          },
-          "required": true
-        }],
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BookSchema"
+                "$ref": "#/components/schemas/ProductSchema"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "$ref" :  "#/components/responses/Response200"
+            "$ref": "#/components/responses/Response200"
           },
           "400": {
             "$ref": "#/components/responses/Response400"
@@ -259,88 +309,23 @@
         }
       },
       "delete": {
-        "tags": ["Books"],
-        "parameters": [{
-          "in": "path",
-          "name": "id",
-          "schema": {
-            "type": "number",
-            "example": 1
-          },
-          "required": true
-        }],
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
-            "$ref" :  "#/components/responses/Response200"
-          },
-          "400": {
-            "$ref": "#/components/responses/Response400"
-          }
-        }
-      }
-    },
-    "/customers/rents": {
-      "post": {
-        "tags": ["Customers Rent"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RentSchema"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "$ref" :  "#/components/responses/Response200"
-          },
-          "400": {
-            "$ref": "#/components/responses/Response400"
-          }
-        }
-      },
-      "get": {
-        "tags": ["Customers Rent"],
-        "responses": {
-          "200": {
-            "description": "get all books",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref" :  "#/components/schemas/ArrayOfRentCustomerAndUserSchema"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/Response400"
-          }
-        }
-      }
-    },
-    "/customers/rents/{id}": {
-      "get": {
-        "tags": ["Customers Rent"],
-        "parameters": [{
-          "in": "path",
-          "name": "id",
-          "schema": {
-            "type": "number",
-            "example": 1
-          },
-          "required": true
-        }],
-        "responses": {
-          "200": {
-            "description": "get all rents",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref" :  "#/components/schemas/RentCustomerAndUserSchema"
-                }
-              }
-            }
+            "$ref": "#/components/responses/Response200"
           },
           "400": {
             "$ref": "#/components/responses/Response400"
@@ -431,7 +416,6 @@
           }
         }
       },
-
       "getCustomerSuccess": {
         "description": "success get customer by id",
         "content": {
@@ -476,8 +460,6 @@
           }
         }
       },
-
-
       "Response200": {
         "description": "success create",
         "content": {
@@ -491,7 +473,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Register Success"
+                  "example": "Success Operation"
                 }
               }
             }
@@ -533,12 +515,21 @@
           },
           "gender": {
             "type": "string",
-            "enum": ["male", "female"]
+            "enum": [
+              "male",
+              "female"
+            ]
           },
           "password": {
             "type": "string",
             "example": "asdf123"
           }
+        }
+      },
+      "ArrayOfCustomerSchema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CustomersSchema"
         }
       },
       "SimpleCustomerSchema": {
@@ -554,7 +545,10 @@
           },
           "gender": {
             "type": "string",
-            "enum": ["male", "female"]
+            "enum": [
+              "male",
+              "female"
+            ]
           }
         }
       },
@@ -576,50 +570,13 @@
           "product_quantity": {
             "type": "integer",
             "example": 10
-          },
+          }
         }
       },
       "ArrayOfProductSchema": {
         "type": "array",
         "items": {
-          "$ref": "#/components/schemas/BookSchema"
-        }
-      },
-      "RentSchema": {
-        "type": "object",
-        "required": ["book_id", "customer_id"],
-        "properties": {
-          "customer_id": {
-            "type": "integer",
-            "example": 15
-          },
-          "book_id": {
-            "type": "number",
-            "example": 12
-          }
-        }
-      },
-      "RentCustomerAndUserSchema": {
-        "type": "object",
-        "allOf": [
-          { "$ref": "#/components/schemas/RentSchema" },
-          {
-            "type": "object",
-            "properties": {
-              "customer": {
-                "$ref": "#/components/schemas/SimpleCustomerSchema"
-              },
-              "book": {
-                "$ref": "#/components/schemas/BookSchema"
-              }
-            }
-          }
-        ]
-      },
-      "ArrayOfRentCustomerAndUserSchema": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/RentCustomerAndUserSchema"
+          "$ref": "#/components/schemas/ProductSchema"
         }
       }
     }
