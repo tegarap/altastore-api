@@ -32,7 +32,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CustomerSchema'
+              $ref: '#/components/schemas/CustomersSchema'
       responses:
         '200':
           $ref: '#/components/responses/registerSuccess'
@@ -98,7 +98,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CustomerSchema'
+              $ref: '#/components/schemas/CustomersSchema'
       responses:
         '200':
           $ref: '#/components/responses/updateCustomerSuccess'
@@ -132,7 +132,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProductSchema'
+              $ref: '#/components/schemas/ProductsSchema'
       responses:
         '200':
           $ref: '#/components/responses/createProductSuccess'
@@ -176,7 +176,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProductSchema'
+              $ref: '#/components/schemas/ProductsSchema'
       responses:
         '200':
           $ref: '#/components/responses/updateProductSuccess'
@@ -199,6 +199,84 @@ paths:
           $ref: '#/components/responses/deleteProductFail'
   #######################################################
   #
+  #  CATEGORIES
+  #
+  #######################################################
+  /categories:
+      post:
+        tags:
+          - Categories
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/'
+        responses:
+          '200':
+            $ref: '#/components/responses/'
+          '400':
+            $ref: '#/components/responses/'
+      get:
+        tags:
+          - Categories
+        responses:
+          '200':
+            $ref: '#/components/responses/'
+          '400':
+            $ref: '#/components/responses/'
+  /categories/{id}:
+      get:
+        tags:
+          - Categories
+        parameters:
+          - in: path
+            name: id
+            schema:
+              type: number
+              example: 1
+            required: true
+        responses:
+          '200':
+            $ref: '#/components/responses/'
+          '400':
+            $ref: '#/components/responses/'
+      put:
+        tags:
+          - Categories
+        parameters:
+          - in: path
+            name: id
+            schema:
+              type: number
+              example: 1
+            required: true
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/'
+        responses:
+          '200':
+            $ref: '#/components/responses/'
+          '400':
+            $ref: '#/components/responses/'
+      delete:
+        tags:
+          - Categories
+        parameters:
+          - in: path
+            name: id
+            schema:
+              type: number
+              example: 1
+            required: true
+        responses:
+          '200':
+            $ref: '#/components/responses/'
+          '400':
+            $ref: '#/components/responses/'
+  #######################################################
+  #
   #  CART
   #
   #######################################################
@@ -210,7 +288,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CartSchema'
+              $ref: '#/components/schemas/CartsSchema'
       responses:
         '200':
           $ref: '#/components/responses/createCartSuccess'
@@ -254,7 +332,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CartSchema'
+              $ref: '#/components/schemas/CartsSchema'
       responses:
         '200':
           $ref: '#/components/responses/updateCartSuccess'
@@ -383,7 +461,7 @@ components:
                 type: string
                 example: Success get customer
               data:
-                $ref: '#/components/schemas/CustomerSchema'
+                $ref: '#/components/schemas/CustomersSchema'
     getCustomerFail:
       description: fail to get customer
       content:
@@ -604,6 +682,26 @@ components:
               message:
                 type: string
                 example: Fail to Delete Product
+    ##########################################
+    #    RESPONSE GET PRODUCTS FROM CATEGORY
+    ##########################################
+    getProductsFromCategorySuccess:
+      description: success get products from category
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+              message:
+                type: string
+                example: Success get product
+              data:
+                $ref: '#/components/schemas/ProductFromCategorySchema'
+    #    getProductsFromCategoryFail:
+    #      description:
     ####################################
     #    RESPONSE CREATE CART
     ####################################
@@ -755,9 +853,9 @@ components:
                 example: Fail to Delete Cart
   schemas:
     ####################################
-    #    CUSTOMER SCHEMA
+    #    CUSTOMERS SCHEMA
     ####################################
-    CustomerSchema:
+    CustomersSchema:
       type: object
       properties:
         name:
@@ -766,26 +864,64 @@ components:
         email:
           type: string
           example: boboboy.pratama@gmail.com
+        password:
+          type: string
+          example: luwakwhitecoffee22
+        phone:
+          type: integer
+          example: 082123123123
+        address:
+          type: string
+          example: Ponorogo
         gender:
           type: string
           enum:
             - male
             - female
-        password:
-          type: string
-          example: asdf123
     ####################################
     #    ARRAY OF CUSTOMER SCHEMA
     ####################################
     ArrayOfCustomerSchema:
       type: array
       items:
-        $ref: '#/components/schemas/CustomerSchema'
+        $ref: '#/components/schemas/CustomersSchema'
     ####################################
-    #    PRODUCT SCHEMA
+    #    SIMPLE CUSTOMERS SCHEMA
     ####################################
-    ProductSchema:
+    SimpleCustomersSchema:
       type: object
+      properties:
+        name:
+          type: string
+          example: Boboboy Pratama
+        email:
+          type: string
+          example: boboboy.pratama@gmail.com
+        phone:
+          type: integer
+          example: 082123123123
+        address:
+          type: string
+          example: Ponorogo
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+    ####################################
+    #    ARRAY OF SIMPLE CUSTOMER SCHEMA
+    ####################################
+    ArrayOfSimpleCustomerSchema:
+      type: array
+      items:
+        $ref: '#/components/schemas/SimpleCustomersSchema'
+    ####################################
+    #    PRODUCTS SCHEMA
+    ####################################
+    ProductsSchema:
+      type: object
+      required:
+        - category_id
       properties:
         name:
           type: string
@@ -793,24 +929,46 @@ components:
         description:
           type: string
           example: ini adalah sabun wing
-        category:
-          type: string
-          example: alat mandi
-        quantity:
+        category_id:
           type: integer
-          example: 10
+          example: 4
+        price:
+          type: integer
+          example: 100000
+        stock:
+          type: integer
+          example: 50
     ####################################
     #    ARRAY OF PRODUCT SCHEMA
     ####################################
     ArrayOfProductSchema:
       type: array
       items:
-        $ref: '#/components/schemas/ProductSchema'
+        $ref: '#/components/schemas/ProductsSchema'
+    ####################################
+    #    CATEGORY SCHEMA
+    ####################################
+    CategorySchema:
+      type: object
+      properties:
+        category_name:
+          type: string
+          example: alat rumah tangga
+    ####################################
+    #    ARRAY OF CATEGORY SCHEMA
+    ####################################
+    ArrayOfCategorySchema:
+      type: array
+      items:
+        $ref: '#/components/schemas/CategorySchema'
     ####################################
     #    CART SCHEMA
     ####################################
-    CartSchema:
+    CartsSchema:
       type: object
+      required:
+        - customer_id
+        - cart_detail_id
       properties:
         customer_id:
           type: integer
@@ -819,9 +977,146 @@ components:
           type: integer
           example: 1
     ####################################
-    #    ARRAY OF CART SCHEMA
+    #    CART RELATION SCHEMA
     ####################################
-    ArrayOfCartSchema:
-      type: array
-      items:
-        $ref: '#/components/schemas/CartSchema'
+    CartRelationSchema:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CartsSchema'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/SimpleCustomersSchema'
+            cart_detail:
+              $ref: '#/components/schemas/CartDetailsSchema'
+    ####################################
+    #    CART DETAILS SCHEMA
+    ####################################
+    CartDetailsSchema:
+      type: object
+      required:
+        - cart_id
+        - product_id
+      properties:
+        cart_id:
+          type: integer
+          example: 1
+        product_id:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          example: 25
+    ####################################
+    #    CART DETAIL RELATION SCHEMA
+    ####################################
+    CartDetailRelationSchema:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CartDetailsSchema'
+        - type: object
+          properties:
+            cart:
+              $ref: '#/components/schemas/CartsSchema'
+            product:
+              $ref: '#/components/schemas/ProductsSchema'
+    ####################################
+    #    TRANSACTION SCHEMA
+    ####################################
+    TransactionSchema:
+      type: object
+      required:
+        - customer_id
+        - payment_id
+        - cart_id
+      properties:
+        customer_id:
+          type: integer
+          example: 1
+        transaction_detail_id:
+          type: integer
+          example: 1
+        payment_id:
+          type: integer
+          example: 2
+        cart_id:
+          type: integer
+          example: 1
+        total_price:
+          type: integer
+          example: 250000
+        transaction_date:
+          type: string
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+    ####################################
+    #    TRANSACTION RELATION SCHEMA
+    ####################################
+    TransactionRelationSchema:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TransactionSchema'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/SimpleCustomersSchema'
+            transaction_detail:
+              $ref: '#/components/schemas/TransactionDetailSchema'
+            payment:
+              $ref: '#/components/schemas/PaymentSchema'
+            cart:
+              $ref: '#/components/schemas/CartsSchema'
+    ####################################
+    #    PAYMENT SCHEMA
+    ####################################
+    PaymentSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: AltaPay
+    ####################################
+    #    TRANSACTION DETAIL SCHEMA
+    ####################################
+    TransactionDetailSchema:
+      type: object
+      required:
+        - transaction_id
+        - product_id
+      properties:
+        transaction_id:
+          type: integer
+          example: 1
+        product_id:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          example: 3
+    ####################################
+    #    TRANSACTION DETAIL RELATION SCHEMA
+    ####################################
+    TransactionDetailRelationSchema:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/TransactionDetailSchema'
+        - type: object
+          properties:
+            transaction:
+              $ref: '#/components/schemas/TransactionSchema'
+            product:
+              $ref: '#/components/schemas/ProductsSchema'
+    ####################################
+    #    DELIVERIES SCHEMA
+    ####################################
+    DeliveriesSchema:
+      type: object
+      required:
+        - transaction_id
+      properties:
+        transaction_id:
+          type: integer
+          example: 1
+        status:
+          type: string
+          example: menunggu pembayaran
