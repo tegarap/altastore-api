@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 
+	"github.com/tegarap/altastore-api/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -21,6 +22,5 @@ func InitDb() {
 }
 
 func InitMigrate() {
-	Db.AutoMigrate()
-	Db.AutoMigrate()
+	Db.AutoMigrate(&models.Categories{})
 }
