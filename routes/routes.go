@@ -20,5 +20,9 @@ func New() *echo.Echo {
 	e.POST("/customers/login", controllers.LoginCustomerController)
 	e.POST("/customers/register", controllers.RegisterCustomerController)
 
+	//---------------------------------------
+	//	CATEGORIES
+	//---------------------------------------
+	e.POST("/categories", controllers.CreateNewCategoriesController)
 	return e
 }
