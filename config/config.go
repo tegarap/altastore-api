@@ -9,7 +9,7 @@ import (
 
 var Db *gorm.DB
 
-func initDb() {
+func InitDb() {
 	connection := os.Getenv("CONNECTION")
 
 	var err error
