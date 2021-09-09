@@ -1,1 +1,12 @@
-package altastore_api
+package main
+
+import (
+	"github.com/tegarap/altastore-api/config"
+	"github.com/tegarap/altastore-api/routes"
+)
+
+func main() {
+	config.InitDb()
+	e := routes.New()
+	e.Logger.Fatal(e.Start(":8000"))
+}
