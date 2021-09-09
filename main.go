@@ -1,4 +1,4 @@
-package altastore_api
+package main
 
 import (
 	"github.com/tegarap/altastore-api/config"
