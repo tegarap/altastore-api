@@ -44,6 +44,10 @@ func New() *echo.Echo {
 	e.POST("/deliveries", controllers.CreateDeliveryController)
 	e.GET("/deliveries", controllers.GetAllDeliveryController)
 	e.GET("/deliveries/:id", controllers.GetSingleDeliveryController)
+	//---------------------------------------
+	//	PAYMENTS
+	//---------------------------------------
+	e.POST("/payments]", controllers.CreatePaymentController)
 
 	return e
 }
