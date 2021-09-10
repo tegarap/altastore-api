@@ -6,7 +6,7 @@ import (
 )
 
 func GetAllProduct(product *[]models.Products) (interface{}, error) {
-	err := config.Db.Find(&product).Error
+	err := config.Db.Preload("CartsDetail").Find(&product).Error
 	if err != nil {
 		return nil, err
 	}
@@ -15,7 +15,7 @@ func GetAllProduct(product *[]models.Products) (interface{}, error) {
 
 func GetSingleProduct(productId int) (interface{}, error) {
 	product := models.Products{}
-	err := config.Db.Find(&product, productId).Error
+	err := config.Db.Preload("CartsDetail").Find(&product, productId).Error
 	if err != nil {
 		return nil, err
 	}
