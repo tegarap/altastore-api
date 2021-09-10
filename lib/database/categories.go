@@ -20,3 +20,12 @@ func GetAllCategories(categories *[]models.Categories) (interface{}, error) {
 	}
 	return categories, nil
 }
+
+func GetSingleCategory(categoryId int) (interface{}, error) {
+	category := models.Categories{}
+	result := config.Db.Preload("Products").Find(&category, categoryId)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return category, nil
+}
