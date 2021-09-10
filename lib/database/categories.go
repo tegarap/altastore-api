@@ -12,3 +12,12 @@ func CreateNewCategories(category *models.Categories) (interface{}, error) {
 	}
 	return category, nil
 }
+
+func GetSingleCategory(categoryId int) (interface{}, error) {
+	category := models.Categories{}
+	result := config.Db.Preload("Products").Find(&category, categoryId)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return category, nil
+}
