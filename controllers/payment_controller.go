@@ -6,6 +6,7 @@ import (
 	"github.com/tegarap/altastore-api/models"
 	util "github.com/tegarap/jsonres"
 	"net/http"
+	"strconv"
 )
 
 func CreatePaymentController(c echo.Context) error {
@@ -29,4 +30,18 @@ func GetAllPaymentController(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, util.ResponseSuccess("Success Get All Payment Method", payments))
+}
+
+func GetSinglePaymentController(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid Parameter", nil))
+	}
+
+	payment, errr := database.GetSinglePayment(id)
+	if errr != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Fail to Get Payment Method", nil))
+	}
+
+	return c.JSON(http.StatusOK, util.ResponseSuccess("Success Get Payment Method", payment))
 }
