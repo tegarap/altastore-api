@@ -19,3 +19,14 @@ func CreatePaymentController(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, util.ResponseSuccess("Success Create New Payment Method", newPayment))
 }
+
+func GetAllPaymentController(c echo.Context) error {
+	var payment []models.Payments
+
+	payments, err := database.GetAllPayment(&payment)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Fail to Get All Payment Method", nil))
+	}
+
+	return c.JSON(http.StatusOK, util.ResponseSuccess("Success Get All Payment Method", payments))
+}

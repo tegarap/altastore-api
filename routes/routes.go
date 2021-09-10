@@ -47,7 +47,8 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	PAYMENTS
 	//---------------------------------------
-	e.POST("/payments]", controllers.CreatePaymentController)
+	e.POST("/payments", controllers.CreatePaymentController)
+	e.GET("/payments", controllers.GetAllPaymentController)
 
 	return e
 }

@@ -12,3 +12,9 @@ func CreatePayment(payment *models.Payments) (interface{}, error) {
 	return payment, nil
 }
 
+func GetAllPayment(payments *[]models.Payments) (interface{}, error) {
+	if err := config.Db.Find(&payments).Error; err != nil {
+		return nil, err
+	}
+	return payments, nil
+}
