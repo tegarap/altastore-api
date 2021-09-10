@@ -19,3 +19,13 @@ func CreateNewCategoriesController(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", newCategory))
 }
+
+func GetAllCategoriesController(c echo.Context) error {
+	categories := []models.Categories{}
+
+	category, err := database.GetAllCategories(&categories)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	return c.JSON(http.StatusOK, util.ResponseSuccess("success", category))
+}
