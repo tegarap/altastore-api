@@ -55,5 +55,12 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//e.POST("/carts", controllers.CreateNewCartController)
 
+
+	//---------------------------------------
+	//	TRANSACTION
+	//---------------------------------------
+	e.POST("/transaction", controllers.CreateTransactionController)
+
+
 	return e
 }
