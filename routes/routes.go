@@ -33,6 +33,7 @@ func New() *echo.Echo {
 	e.GET("/products", controllers.GetAllProductController)
 	e.GET("/products/:id", controllers.GetSingleProductController)
 	e.DELETE("/products/:id", controllers.DeleteProductController)
+	e.PUT("/products/:id", controllers.UpdateProductController)
 	//---------------------------------------
 	//	CARTS
 	//---------------------------------------

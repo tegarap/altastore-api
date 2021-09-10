@@ -55,3 +55,23 @@ func DeleteProductController(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", result))
 }
+
+func UpdateProductController(c echo.Context) error {
+	productId, errorId := strconv.Atoi(c.Param("id"))
+	if errorId != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+
+	newProduct := models.Products{}
+	c.Bind(&newProduct)
+
+	updatedProduct, rowAffected, err := database.UpdateProduct(productId, &newProduct)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+
+	if rowAffected == 0 {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	return c.JSON(http.StatusOK, util.ResponseSuccess("success", updatedProduct))
+}
