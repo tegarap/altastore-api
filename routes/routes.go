@@ -61,6 +61,8 @@ func New() *echo.Echo {
 	//---------------------------------------
 	e.POST("/transactions", controllers.CreateTransactionController)
 	e.GET("/transactions", controllers.GetAllTransactionController)
+	e.GET("/transactions/:id", controllers.GetSingleTransactionController)
+
 
 	return e
 }

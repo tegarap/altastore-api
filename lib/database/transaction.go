@@ -18,3 +18,11 @@ func GetAllTransaction(transactions *[]models.Transactions) (interface{}, error)
 	}
 	return transactions, nil
 }
+
+func GetSingleTransaction(id int) (interface{}, error) {
+	var transaction models.Transactions
+	if err := config.Db.Preload("Deliveries").Find(&transaction, id).Error; err != nil {
+		return nil, err
+	}
+	return transaction, nil
+}
