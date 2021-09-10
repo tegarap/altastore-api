@@ -4,6 +4,6 @@ import "gorm.io/gorm"
 
 type Payments struct {
 	gorm.Model
-	PaymentName  string
+	PaymentName  string `json:"payment_name"`
 	Transactions []Transactions
 }

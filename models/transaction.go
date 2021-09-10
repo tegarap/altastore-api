@@ -9,10 +9,10 @@ import (
 type Transactions struct {
 	gorm.Model
 	//	CustomersID uint
-	PaymentsID uint
+	PaymentsID uint `json:"payments_id"`
 	//CartsID            uint
-	TotalPrice         int
-	TransactionsStatus string
-	TransactionsDate   time.Time
+	TotalPrice         int `json:"total_price"`
+	TransactionsStatus string `json:"transactions_status"`
+	TransactionsDate   time.Time `json:"transactions_date"`
 	Deliveries         Deliveries
 }
