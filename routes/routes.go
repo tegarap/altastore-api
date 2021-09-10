@@ -24,5 +24,7 @@ func New() *echo.Echo {
 	//	CATEGORIES
 	//---------------------------------------
 	e.POST("/categories", controllers.CreateNewCategoriesController)
+	e.GET("/categories", controllers.GetAllCategoriesController)
+
 	return e
 }
