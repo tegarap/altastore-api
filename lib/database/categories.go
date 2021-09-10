@@ -12,3 +12,11 @@ func CreateNewCategories(category *models.Categories) (interface{}, error) {
 	}
 	return category, nil
 }
+
+func GetAllCategories(categories *[]models.Categories) (interface{}, error) {
+	result := config.Db.Preload("Products").Find(&categories)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return categories, nil
+}
