@@ -27,6 +27,7 @@ func InitMigrate() {
 	Db.AutoMigrate(&models.CartsDetail{})
 	Db.AutoMigrate(&models.Categories{})
 	Db.AutoMigrate(&models.Customers{})
-	Db.AutoMigrate(&models.Deliveries{})
+	Db.AutoMigrate(&models.Payments{})
 	Db.AutoMigrate(&models.Products{})
+	Db.AutoMigrate(&models.Transactions{})
 }

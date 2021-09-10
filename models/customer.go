@@ -9,7 +9,7 @@ type Customers struct {
 	Password string `json:"password"`
 	Phone    int    `json:"phone"`
 	Address  string `json:"address"`
-	Gender   string `json:"gender"`
+	Gender   string `json:"gender" sql:"type:ENUM('male', 'female')"`
 	//Carts        Carts
 	//Transactions []Transactions
 }
