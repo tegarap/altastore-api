@@ -19,7 +19,7 @@ func New() *echo.Echo {
 	//---------------------------------------
 	e.POST("/customers/login", controllers.LoginCustomerController)
 	e.POST("/customers/register", controllers.RegisterCustomerController)
-
+	e.GET("/customers", controllers.GetAllCustomersController)
 	//---------------------------------------
 	//	CATEGORIES
 	//---------------------------------------
@@ -38,5 +38,7 @@ func New() *echo.Echo {
 	//	CARTS
 	//---------------------------------------
 	e.POST("/carts", controllers.CreateNewCartController)
+	e.GET("/carts", controllers.GetAllCartsController)
+	e.GET("/carts/:id", controllers.GetSingleCartController)
 	return e
 }

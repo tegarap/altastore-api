@@ -5,7 +5,7 @@ import (
 	"github.com/tegarap/altastore-api/models"
 )
 
-func LoginCustomer(customer *models.Customers) (interface{}, error){
+func LoginCustomer(customer *models.Customers) (interface{}, error) {
 	if err := config.Db.Where("email = ? AND password = ?", customer.Email, customer.Password).First(customer).Error; err != nil {
 		return nil, err
 	}
@@ -17,4 +17,11 @@ func RegisterCustomer(customer *models.Customers) (interface{}, error) {
 		return nil, err
 	}
 	return customer, nil
+}
+
+func GetAllCustomers(customers *[]models.Customers) (interface{}, error) {
+	if err := config.Db.Preload("Carts").Find(&customers).Error; err != nil {
+		return nil, err
+	}
+	return customers, nil
 }
