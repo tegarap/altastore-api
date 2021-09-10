@@ -24,4 +24,7 @@ func InitDb() {
 func InitMigrate() {
 	Db.AutoMigrate(&models.Categories{})
 	Db.AutoMigrate(&models.Products{})
+	Db.AutoMigrate(&models.Customers{})
+	Db.AutoMigrate(&models.Admins{})
+	Db.AutoMigrate(&models.Deliveries{})
 }
