@@ -57,10 +57,10 @@ func New() *echo.Echo {
 
 
 	//---------------------------------------
-	//	TRANSACTION
+	//	TRANSACTIONS
 	//---------------------------------------
-	e.POST("/transaction", controllers.CreateTransactionController)
-
+	e.POST("/transactions", controllers.CreateTransactionController)
+	e.GET("/transactions", controllers.GetAllTransactionController)
 
 	return e
 }

@@ -20,3 +20,11 @@ func CreateTransactionController(c echo.Context) error {
 	return c.JSON(http.StatusBadRequest, util.ResponseFail("Success Create Transaction", newTransaction))
 }
 
+func GetAllTransactionController(c echo.Context) error {
+	var transaction []models.Transactions
+	transactions, err := database.GetAllTransaction(&transaction)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Fail to Get All Transaction", nil))
+	}
+	return c.JSON(http.StatusOK, util.ResponseSuccess("Success Get All Transaction", transactions))
+}
