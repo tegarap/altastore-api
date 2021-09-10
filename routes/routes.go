@@ -26,5 +26,11 @@ func New() *echo.Echo {
 	e.POST("/categories", controllers.CreateNewCategoriesController)
 	e.GET("/categories", controllers.GetAllCategoriesController)
 	e.GET("/categories/:id", controllers.GetSingleCategoryController)
+	//---------------------------------------
+	//	PRODUCTS
+	//---------------------------------------
+	e.POST("/products", controllers.CreateNewProductController)
+	e.GET("/products", controllers.GetAllProductController)
+	e.GET("/products/:id", controllers.GetSingleProductController)
 	return e
 }
