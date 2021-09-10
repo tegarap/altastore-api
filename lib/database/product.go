@@ -29,3 +29,12 @@ func CreateNewProduct(products *models.Products) (interface{}, error) {
 	}
 	return products, nil
 }
+
+func DeleteProduct(productId int) (interface{}, error) {
+	product := models.Products{}
+	result := config.Db.Delete(&product, productId)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return "deleted", nil
+}

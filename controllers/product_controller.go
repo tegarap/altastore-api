@@ -43,3 +43,15 @@ func CreateNewProductController(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", newProduct))
 }
+
+func DeleteProductController(c echo.Context) error {
+	productId, errorId := strconv.Atoi(c.Param("id"))
+	if errorId != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	result, err := database.DeleteProduct(productId)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	return c.JSON(http.StatusOK, util.ResponseSuccess("success", result))
+}
