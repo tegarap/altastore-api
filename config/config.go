@@ -22,9 +22,11 @@ func InitDb() {
 }
 
 func InitMigrate() {
-	Db.AutoMigrate(&models.Categories{})
-	Db.AutoMigrate(&models.Products{})
-	Db.AutoMigrate(&models.Customers{})
 	Db.AutoMigrate(&models.Admins{})
+	Db.AutoMigrate(&models.Carts{})
+	Db.AutoMigrate(&models.CartsDetail{})
+	Db.AutoMigrate(&models.Categories{})
+	Db.AutoMigrate(&models.Customers{})
 	Db.AutoMigrate(&models.Deliveries{})
+	Db.AutoMigrate(&models.Products{})
 }
