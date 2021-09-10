@@ -29,7 +29,7 @@ func GetAllDeliveryController(c echo.Context) error {
 	return c.JSON(http.StatusOK, util.ResponseSuccess("Success Get All Delivery", deliveries))
 }
 
-func GetSingleDelivery(c echo.Context) error {
+func GetSingleDeliveryController(c echo.Context) error {
 	deliveryId, er := strconv.Atoi(c.Param("id"))
 	if er != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid Parameter", nil))
