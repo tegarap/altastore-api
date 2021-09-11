@@ -14,7 +14,7 @@ func CreatePayment(payment *models.Payments) (interface{}, error) {
 }
 
 func GetAllPayment(payments *[]models.Payments) (interface{}, error) {
-	if err := config.Db.Find(&payments).Error; err != nil {
+	if err := config.Db.Preload("Transactions").Find(&payments).Error; err != nil {
 		return payments, err
 	}
 	outPayment := models.PaymentResponse{}
@@ -23,7 +23,7 @@ func GetAllPayment(payments *[]models.Payments) (interface{}, error) {
 
 func GetSinglePayment(id int) (interface{}, error) {
 	payment := models.Payments{}
-	if err := config.Db.First(&payment, id).Error; err != nil {
+	if err := config.Db.Preload("Transactions").First(&payment, id).Error; err != nil {
 		return payment, err
 	}
 	outPayment := models.PaymentResponse{}
