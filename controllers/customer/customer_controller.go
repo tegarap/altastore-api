@@ -37,7 +37,6 @@ func RegisterCustomerController(c echo.Context) error {
 		ID: regCustomer.ID,
 		Name: regCustomer.Name,
 		Email: regCustomer.Email,
-		Password: regCustomer.Password,
 		Phone: regCustomer.Phone,
 		Address: regCustomer.Address,
 		Gender: regCustomer.Gender,

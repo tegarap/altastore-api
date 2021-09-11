@@ -1,4 +1,4 @@
-package controllers
+package admin
 
 import (
 	"github.com/labstack/echo/v4"
@@ -28,9 +28,16 @@ func RegisterAdminController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Field are Required", nil))
 	}
 
-	admin, err := database.RegisterAdmin(&regAdmin)
+	_, err := database.RegisterAdmin(&regAdmin)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Register Failed", nil))
 	}
-	return c.JSON(http.StatusBadRequest, util.ResponseSuccess("Register Success", admin))
+
+	response := Response{
+		ID: regAdmin.ID,
+		Name: regAdmin.Name,
+		Email: regAdmin.Email,
+	}
+
+	return c.JSON(http.StatusOK, util.ResponseSuccess("Register Success", response))
 }

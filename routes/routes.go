@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/tegarap/altastore-api/controllers"
+	"github.com/tegarap/altastore-api/controllers/admin"
 	"github.com/tegarap/altastore-api/controllers/customer"
 	"github.com/tegarap/altastore-api/controllers/payment"
 )
@@ -13,8 +14,8 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	ADMIN
 	//---------------------------------------
-	e.POST("/admin/login", controllers.LoginAdminController)
-	e.POST("/admin/register", controllers.RegisterAdminController)
+	e.POST("/admin/login", admin.LoginAdminController)
+	e.POST("/admin/register", admin.RegisterAdminController)
 
 	//---------------------------------------
 	//	CUSTOMER
