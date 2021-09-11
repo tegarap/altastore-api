@@ -8,3 +8,9 @@ type Admins struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
+
+type AdminResponse struct {
+	ID       uint
+	Name     string
+	Email    string
+}

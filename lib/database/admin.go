@@ -5,19 +5,19 @@ import (
 	"github.com/tegarap/altastore-api/models"
 )
 
-func LoginAdmin(admin *models.Admins) (*models.Admins, error){
+func LoginAdmin(admin *models.Admins) (interface{}, error){
 	var err error
 	if err = config.Db.Where("email = ? AND password = ?", admin.Email, admin.Password).First(admin).Error; err != nil {
 		return nil, err
 	}
-	//response := []models.OutputProduct{}
-
-	return admin, nil
+	outAdmin := models.AdminResponse{}
+	return outAdmin, nil
 }
 
-func RegisterAdmin(admin *models.Admins) (*models.Admins, error) {
+func RegisterAdmin(admin *models.Admins) (interface{}, error) {
 	if err := config.Db.Create(&admin).Error; err != nil {
 		return nil, err
 	}
-	return admin, nil
+	outAdmin := models.AdminResponse{}
+	return outAdmin, nil
 }
