@@ -7,3 +7,8 @@ type Payments struct {
 	PaymentName  string `json:"payment_name"`
 	Transactions []Transactions
 }
+
+type PaymentResponse struct {
+	ID          uint
+	PaymentName string
+}

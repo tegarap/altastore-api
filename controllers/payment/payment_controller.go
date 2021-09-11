@@ -18,12 +18,7 @@ func CreatePaymentController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Fail to Create Payment Method", nil))
 	}
 
-	response := Response{
-		ID:          newPayment.ID,
-		PaymentName: newPayment.PaymentName,
-	}
-
-	return c.JSON(http.StatusOK, util.ResponseSuccess("Success Create New Payment Method", response))
+	return c.JSON(http.StatusOK, util.ResponseSuccess("Success Create New Payment Method", newPayment))
 }
 
 func GetAllPaymentController(c echo.Context) error {
@@ -48,10 +43,5 @@ func GetSinglePaymentController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Fail to Get Payment Method", nil))
 	}
 
-	response := Response{
-		ID:          payment.ID,
-		PaymentName: payment.PaymentName,
-	}
-
-	return c.JSON(http.StatusOK, util.ResponseSuccess("Success Get Payment Method", response))
+	return c.JSON(http.StatusOK, util.ResponseSuccess("Success Get Payment Method", payment))
 }
