@@ -15,3 +15,11 @@ type Transactions struct {
 	TransactionsDate   time.Time `json:"transactions_date"`
 	DeliveryStatus     string    `json:"delivery_status" sql:"type:ENUM('pending', 'delivered')"`
 }
+
+type TransactionResponse struct {
+	ID                 uint
+	TotalPrice         int
+	TransactionsStatus string
+	TransactionsDate   time.Time
+	DeliveryStatus     string
+}
