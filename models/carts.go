@@ -1,17 +1,25 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"time"
+)
 
 type Carts struct {
-	gorm.Model
-	CustomersID uint `json:"customer_id" form:"customer_id"`
+	ID           uint `gorm:"primarykey"`
+	CustomersID  uint `json:"customer_id" form:"customer_id"`
 	Transactions Transactions
-	CartsDetail []CartsDetail
+	CartsDetail  []CartsDetail
+	CreatedAt    time.Time  `gorm:"column:created_at" json:"-"`
+	UpdatedAt    time.Time  `gorm:"column:updated_at" json:"-"`
+	DeletedAt    *time.Time `gorm:"column:deleted_at" json:"-"`
 }
 
 type CartsDetail struct {
-	gorm.Model
-	CartsID    uint `json:"cart_id" form:"cart_id"`
-	ProductsID uint `json:"product_id" form:"product_id"`
-	Quantity   int  `json:"quantity" form:"quantity"`
+	ID         uint       `gorm:"primarykey"`
+	CartsID    uint       `json:"cart_id" form:"cart_id"`
+	ProductsID uint       `json:"product_id" form:"product_id"`
+	Quantity   int        `json:"quantity" form:"quantity"`
+	CreatedAt  time.Time  `gorm:"column:created_at" json:"-"`
+	UpdatedAt  time.Time  `gorm:"column:updated_at" json:"-"`
+	DeletedAt  *time.Time `gorm:"column:deleted_at" json:"-"`
 }
