@@ -1,4 +1,4 @@
-package controllers
+package customer
 
 import (
 	"github.com/labstack/echo/v4"
@@ -28,9 +28,19 @@ func RegisterCustomerController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Field are Required", nil))
 	}
 
-	customer, err := database.RegisterCustomer(&regCustomer)
+	_, err := database.RegisterCustomer(&regCustomer)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Register Failed", nil))
 	}
-	return c.JSON(http.StatusBadRequest, util.ResponseSuccess("Register Success", customer))
+
+	response := Response{
+		ID: regCustomer.ID,
+		Name: regCustomer.Name,
+		Email: regCustomer.Email,
+		Password: regCustomer.Password,
+		Phone: regCustomer.Phone,
+		Address: regCustomer.Address,
+		Gender: regCustomer.Gender,
+	}
+	return c.JSON(http.StatusOK, util.ResponseSuccess("Register Success", response))
 }
