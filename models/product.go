@@ -11,3 +11,11 @@ type Products struct {
 	CategoriesID uint   `json:"category_id" form:"category_id"`
 	CartsDetail  []CartsDetail
 }
+
+type OutputProduct struct {
+	ID          uint
+	Name        string
+	Description string
+	Price       int
+	Stock       int
+}

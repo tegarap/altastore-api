@@ -22,9 +22,7 @@ func CreateNewCategoriesController(c echo.Context) error {
 }
 
 func GetAllCategoriesController(c echo.Context) error {
-	categories := []models.Categories{}
-
-	category, err := database.GetAllCategories(&categories)
+	category, err := database.GetAllCategories()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}

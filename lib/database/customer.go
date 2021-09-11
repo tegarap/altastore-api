@@ -3,6 +3,7 @@ package database
 import (
 	"github.com/tegarap/altastore-api/config"
 	"github.com/tegarap/altastore-api/models"
+	"gorm.io/gorm/clause"
 )
 
 func LoginCustomer(customer *models.Customers) (interface{}, error) {
@@ -20,7 +21,7 @@ func RegisterCustomer(customer *models.Customers) (interface{}, error) {
 }
 
 func GetAllCustomers(customers *[]models.Customers) (interface{}, error) {
-	if err := config.Db.Preload("Carts").Find(&customers).Error; err != nil {
+	if err := config.Db.Preload("Carts.CartsDetail").Preload(clause.Associations).Find(&customers).Error; err != nil {
 		return nil, err
 	}
 	return customers, nil
