@@ -18,16 +18,7 @@ func LoginCustomerController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Login Failed", nil))
 	}
 
-	response := Response{
-		ID: customers.ID,
-		Name: customers.Name,
-		Email: customers.Email,
-		Phone: customers.Phone,
-		Address: customers.Address,
-		Gender: customers.Gender,
-	}
-
-	return c.JSON(http.StatusOK, util.ResponseSuccess("Login Success", response))
+	return c.JSON(http.StatusOK, util.ResponseSuccess("Login Success", customers))
 }
 
 func RegisterCustomerController(c echo.Context) error {
@@ -43,15 +34,7 @@ func RegisterCustomerController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Register Failed", nil))
 	}
 
-	response := Response{
-		ID: customer.ID,
-		Name: customer.Name,
-		Email: customer.Email,
-		Phone: customer.Phone,
-		Address: customer.Address,
-		Gender: customer.Gender,
-	}
-	return c.JSON(http.StatusOK, util.ResponseSuccess("Register Success", response))
+	return c.JSON(http.StatusOK, util.ResponseSuccess("Register Success", customer))
 }
 
 func GetAllCustomersController(c echo.Context) error {

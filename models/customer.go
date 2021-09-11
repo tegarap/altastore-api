@@ -13,3 +13,12 @@ type Customers struct {
 	Carts        []Carts
 	Transactions []Transactions
 }
+
+type CustomerResponse struct {
+	ID       uint
+	Name     string
+	Email    string
+	Phone    int
+	Address  string
+	Gender   string
+}

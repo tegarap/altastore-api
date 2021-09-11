@@ -6,18 +6,20 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-func LoginCustomer(customer *models.Customers) (*models.Customers, error){
+func LoginCustomer(customer *models.Customers) (interface{}, error){
 	if err := config.Db.Where("email = ? AND password = ?", customer.Email, customer.Password).First(customer).Error; err != nil {
 		return nil, err
 	}
-	return customer, nil
+	outCustomer := models.CustomerResponse{}
+	return outCustomer, nil
 }
 
-func RegisterCustomer(customer *models.Customers) (*models.Customers, error) {
+func RegisterCustomer(customer *models.Customers) (interface{}, error) {
 	if err := config.Db.Create(&customer).Error; err != nil {
 		return nil, err
 	}
-	return customer, nil
+	outCustomer := models.CustomerResponse{}
+	return outCustomer, nil
 }
 
 func GetAllCustomers(customers *[]models.Customers) (interface{}, error) {
