@@ -9,16 +9,14 @@ func CreateTransaction(transaction *models.Transactions) (interface{}, error) {
 	if err := config.Db.Create(&transaction).Error; err != nil {
 		return nil, err
 	}
-	outTransaction := models.TransactionResponse{}
-	return outTransaction, nil
+	return transaction, nil
 }
 
 func GetAllTransaction(transactions *[]models.Transactions) (interface{}, error) {
 	if err := config.Db.Find(&transactions).Error; err != nil {
 		return nil, err
 	}
-	outTransaction := models.TransactionResponse{}
-	return outTransaction, nil
+	return transactions, nil
 }
 
 func GetSingleTransaction(id int) (interface{}, error) {
@@ -26,6 +24,5 @@ func GetSingleTransaction(id int) (interface{}, error) {
 	if err := config.Db.Find(&transaction, id).Error; err != nil {
 		return transaction, err
 	}
-	outTransaction := models.TransactionResponse{}
-	return outTransaction, nil
+	return transaction, nil
 }
