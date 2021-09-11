@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/tegarap/altastore-api/controllers"
+	"github.com/tegarap/altastore-api/controllers/payment"
 )
 
 func New() *echo.Echo {
@@ -39,16 +40,17 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	DELIVERIES
 	//---------------------------------------
-	e.POST("/deliveries", controllers.CreateDeliveryController)
-	e.GET("/deliveries", controllers.GetAllDeliveryController)
-	e.GET("/deliveries/:id", controllers.GetSingleDeliveryController)
+
+	//e.POST("/deliveries", controllers.CreateDeliveryController)
+	//e.GET("/deliveries", controllers.GetAllDeliveryController)
+	//e.GET("/deliveries/:id", controllers.GetSingleDeliveryController)
 
 	//---------------------------------------
 	//	PAYMENTS
 	//---------------------------------------
-	e.POST("/payments", controllers.CreatePaymentController)
-	e.GET("/payments", controllers.GetAllPaymentController)
-	e.GET("/payments/:id", controllers.GetSinglePaymentController)
+	e.POST("/payments", payment.CreatePaymentController)
+	e.GET("/payments", payment.GetAllPaymentController)
+	e.GET("/payments/:id", payment.GetSinglePaymentController)
 
 	//---------------------------------------
 	//	CARTS
