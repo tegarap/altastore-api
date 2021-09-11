@@ -1,4 +1,4 @@
-package controllers
+package product
 
 import (
 	"net/http"

@@ -2,10 +2,12 @@ package routes
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/tegarap/altastore-api/controllers"
 	"github.com/tegarap/altastore-api/controllers/admin"
+	"github.com/tegarap/altastore-api/controllers/cart"
+	"github.com/tegarap/altastore-api/controllers/category"
 	"github.com/tegarap/altastore-api/controllers/customer"
 	"github.com/tegarap/altastore-api/controllers/payment"
+	"github.com/tegarap/altastore-api/controllers/product"
 	"github.com/tegarap/altastore-api/controllers/transaction"
 )
 
@@ -28,18 +30,18 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	CATEGORIES
 	//---------------------------------------
-	e.POST("/categories", controllers.CreateNewCategoriesController)
-	e.GET("/categories", controllers.GetAllCategoriesController)
-	e.GET("/categories/:id", controllers.GetSingleCategoryController)
+	e.POST("/categories", category.CreateNewCategoriesController)
+	e.GET("/categories", category.GetAllCategoriesController)
+	e.GET("/categories/:id", category.GetSingleCategoryController)
 
 	//---------------------------------------
 	//	PRODUCTS
 	//---------------------------------------
-	e.POST("/products", controllers.CreateNewProductController)
-	e.GET("/products", controllers.GetAllProductController)
-	e.GET("/products/:id", controllers.GetSingleProductController)
-	e.DELETE("/products/:id", controllers.DeleteProductController)
-	e.PUT("/products/:id", controllers.UpdateProductController)
+	e.POST("/products", product.CreateNewProductController)
+	e.GET("/products", product.GetAllProductController)
+	e.GET("/products/:id", product.GetSingleProductController)
+	e.DELETE("/products/:id", product.DeleteProductController)
+	e.PUT("/products/:id", product.UpdateProductController)
 
 	//---------------------------------------
 	//	DELIVERIES
@@ -59,18 +61,18 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	CARTS
 	//---------------------------------------
-	e.POST("/carts", controllers.CreateNewCartController)
-	e.GET("/carts", controllers.GetAllCartsController)
-	e.GET("/carts/:id", controllers.GetSingleCartController)
+	e.POST("/carts", cart.CreateNewCartController)
+	e.GET("/carts", cart.GetAllCartsController)
+	e.GET("/carts/:id", cart.GetSingleCartController)
 
 	//---------------------------------------
 	//	CART DETAILS
 	//---------------------------------------
-	e.POST("/add/products", controllers.CreateNewCartDetailController)
-	e.GET("/carts/detail", controllers.GetAllCartDetailController)
-	e.GET("/carts/detail/:id", controllers.GetSingleCartDetailController)
-	e.PUT("/edit/products/:id", controllers.UpdatedProductOnCartController)
-	e.DELETE("/delete/products/:id", controllers.DeleteProductOnCartController)
+	e.POST("/add/products", cart.CreateNewCartDetailController)
+	e.GET("/carts/detail", cart.GetAllCartDetailController)
+	e.GET("/carts/detail/:id", cart.GetSingleCartDetailController)
+	e.PUT("/edit/products/:id", cart.UpdatedProductOnCartController)
+	e.DELETE("/delete/products/:id", cart.DeleteProductOnCartController)
 
 	//---------------------------------------
 	//	TRANSACTIONS
