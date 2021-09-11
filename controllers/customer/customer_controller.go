@@ -12,12 +12,21 @@ func LoginCustomerController(c echo.Context) error {
 	var customer models.Customers
 	c.Bind(&customer)
 
-	_, err := database.LoginCustomer(&customer)
+	customers, err := database.LoginCustomer(&customer)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Login Failed", nil))
 	}
 
-	return c.JSON(http.StatusOK, util.ResponseSuccess("Login Success", nil))
+	response := Response{
+		ID: customers.ID,
+		Name: customers.Name,
+		Email: customers.Email,
+		Phone: customers.Phone,
+		Address: customers.Address,
+		Gender: customers.Gender,
+	}
+
+	return c.JSON(http.StatusOK, util.ResponseSuccess("Login Success", response))
 }
 
 func RegisterCustomerController(c echo.Context) error {
@@ -28,18 +37,18 @@ func RegisterCustomerController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Field are Required", nil))
 	}
 
-	_, err := database.RegisterCustomer(&regCustomer)
+	customer, err := database.RegisterCustomer(&regCustomer)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Register Failed", nil))
 	}
 
 	response := Response{
-		ID: regCustomer.ID,
-		Name: regCustomer.Name,
-		Email: regCustomer.Email,
-		Phone: regCustomer.Phone,
-		Address: regCustomer.Address,
-		Gender: regCustomer.Gender,
+		ID: customer.ID,
+		Name: customer.Name,
+		Email: customer.Email,
+		Phone: customer.Phone,
+		Address: customer.Address,
+		Gender: customer.Gender,
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("Register Success", response))
 }
