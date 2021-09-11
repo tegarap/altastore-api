@@ -5,24 +5,24 @@ import (
 	"github.com/tegarap/altastore-api/models"
 )
 
-func CreateTransaction(transaction *models.Transactions) (interface{}, error) {
+func CreateTransaction(transaction *models.Transactions) (*models.Transactions, error) {
 	if err := config.Db.Create(&transaction).Error; err != nil {
 		return nil, err
 	}
 	return transaction, nil
 }
 
-func GetAllTransaction(transactions *[]models.Transactions) (interface{}, error) {
+func GetAllTransaction(transactions *[]models.Transactions) (*[]models.Transactions, error) {
 	if err := config.Db.Preload("Deliveries").Find(&transactions).Error; err != nil {
 		return nil, err
 	}
 	return transactions, nil
 }
 
-func GetSingleTransaction(id int) (interface{}, error) {
+func GetSingleTransaction(id int) (models.Transactions, error) {
 	var transaction models.Transactions
 	if err := config.Db.Preload("Deliveries").Find(&transaction, id).Error; err != nil {
-		return nil, err
+		return transaction, err
 	}
 	return transaction, nil
 }

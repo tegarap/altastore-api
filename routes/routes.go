@@ -6,6 +6,7 @@ import (
 	"github.com/tegarap/altastore-api/controllers/admin"
 	"github.com/tegarap/altastore-api/controllers/customer"
 	"github.com/tegarap/altastore-api/controllers/payment"
+	"github.com/tegarap/altastore-api/controllers/transaction"
 )
 
 func New() *echo.Echo {
@@ -63,9 +64,9 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	TRANSACTIONS
 	//---------------------------------------
-	e.POST("/transactions", controllers.CreateTransactionController)
-	e.GET("/transactions", controllers.GetAllTransactionController)
-	e.GET("/transactions/:id", controllers.GetSingleTransactionController)
+	e.POST("/transactions", transaction.CreateTransactionController)
+	e.GET("/transactions", transaction.GetAllTransactionController)
+	e.GET("/transactions/:id", transaction.GetSingleTransactionController)
 
 
 	return e
