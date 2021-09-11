@@ -11,7 +11,7 @@ type Carts struct {
 
 type CartsDetail struct {
 	gorm.Model
-	CartsID  uint
-	Products []*Products `gorm:"many2many:carts_products;" json:"product_id" form:"product_id"`
-	Quantity int         `json:"quantity" form:"quantity"`
+	CartsID    uint `json:"cart_id" form:"cart_id"`
+	ProductsID uint `json:"product_id" form:"product_id"`
+	Quantity   int  `json:"quantity" form:"quantity"`
 }

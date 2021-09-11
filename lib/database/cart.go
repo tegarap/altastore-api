@@ -14,7 +14,7 @@ func CreateNewCart(cart *models.Carts) (interface{}, error) {
 }
 
 func GetAllCarts(carts *[]models.Carts) (interface{}, error) {
-	result := config.Db.Find(&carts)
+	result := config.Db.Preload("CartsDetail").Find(&carts)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -22,7 +22,7 @@ func GetAllCarts(carts *[]models.Carts) (interface{}, error) {
 }
 
 func GetSingleCart(cartId int, cart *models.Carts) (interface{}, error) {
-	result := config.Db.Find(&cart, cartId)
+	result := config.Db.Preload("CartsDetail").Find(&cart, cartId)
 	if result.Error != nil {
 		return nil, result.Error
 	}
