@@ -1,15 +1,12 @@
-package models
+package transaction
 
-import (
-	"gorm.io/gorm"
-	"time"
-)
+import "time"
 
-type Transactions struct {
-	gorm.Model
-	CustomersID        uint      `json:"customer_id"`
-	PaymentsID         uint      `json:"payments_id"`
-	CartsID            uint      `json:"carts_id"`
+type Response struct {
+	ID          uint   `gorm:"primarykey"`
+	//	CustomersID uint
+	PaymentsID uint `json:"payments_id"`
+	//CartsID            uint
 	TotalPrice         int       `json:"total_price"`
 	TransactionsStatus string    `json:"transactions_status"`
 	TransactionsDate   time.Time `json:"transactions_date"`

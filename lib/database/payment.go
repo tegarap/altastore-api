@@ -5,24 +5,24 @@ import (
 	"github.com/tegarap/altastore-api/models"
 )
 
-func CreatePayment(payment *models.Payments) (interface{}, error) {
+func CreatePayment(payment *models.Payments) (*models.Payments, error) {
 	if err := config.Db.Create(&payment).Error; err != nil {
-		return nil, err
+		return payment, err
 	}
 	return payment, nil
 }
 
-func GetAllPayment(payments *[]models.Payments) (interface{}, error) {
+func GetAllPayment(payments *[]models.Payments) (*[]models.Payments, error) {
 	if err := config.Db.Find(&payments).Error; err != nil {
-		return nil, err
+		return payments, err
 	}
 	return payments, nil
 }
 
-func GetSinglePayment(id int) (interface{}, error) {
-	var payment = models.Payments{}
+func GetSinglePayment(id int) (models.Payments, error) {
+	payment := models.Payments{}
 	if err := config.Db.First(&payment, id).Error; err != nil {
-		return nil, err
+		return payment, err
 	}
 	return payment, nil
 }

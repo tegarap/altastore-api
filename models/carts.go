@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type Carts struct {
 	gorm.Model
 	CustomersID uint `json:"customer_id" form:"customer_id"`
-	//Transactions Transactions
+	Transactions Transactions
 	CartsDetail []CartsDetail
 }
 

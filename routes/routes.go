@@ -3,6 +3,10 @@ package routes
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/tegarap/altastore-api/controllers"
+	"github.com/tegarap/altastore-api/controllers/admin"
+	"github.com/tegarap/altastore-api/controllers/customer"
+	"github.com/tegarap/altastore-api/controllers/payment"
+	"github.com/tegarap/altastore-api/controllers/transaction"
 )
 
 func New() *echo.Echo {
@@ -11,15 +15,15 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	ADMIN
 	//---------------------------------------
-	e.POST("/admin/login", controllers.LoginAdminController)
-	e.POST("/admin/register", controllers.RegisterAdminController)
+	e.POST("/admin/login", admin.LoginAdminController)
+	e.POST("/admin/register", admin.RegisterAdminController)
 
 	//---------------------------------------
 	//	CUSTOMER
 	//---------------------------------------
-	e.POST("/customers/login", controllers.LoginCustomerController)
-	e.POST("/customers/register", controllers.RegisterCustomerController)
-	e.GET("/customers", controllers.GetAllCustomersController)
+	e.POST("/customers/login", customer.LoginCustomerController)
+	e.POST("/customers/register", customer.RegisterCustomerController)
+	e.GET("/customers", customer.GetAllCustomersController)
 
 	//---------------------------------------
 	//	CATEGORIES
@@ -40,16 +44,17 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	DELIVERIES
 	//---------------------------------------
-	e.POST("/deliveries", controllers.CreateDeliveryController)
-	e.GET("/deliveries", controllers.GetAllDeliveryController)
-	e.GET("/deliveries/:id", controllers.GetSingleDeliveryController)
+
+	//e.POST("/deliveries", controllers.CreateDeliveryController)
+	//e.GET("/deliveries", controllers.GetAllDeliveryController)
+	//e.GET("/deliveries/:id", controllers.GetSingleDeliveryController)
 
 	//---------------------------------------
 	//	PAYMENTS
 	//---------------------------------------
-	e.POST("/payments", controllers.CreatePaymentController)
-	e.GET("/payments", controllers.GetAllPaymentController)
-	e.GET("/payments/:id", controllers.GetSinglePaymentController)
+	e.POST("/payments", payment.CreatePaymentController)
+	e.GET("/payments", payment.GetAllPaymentController)
+	e.GET("/payments/:id", payment.GetSinglePaymentController)
 
 	//---------------------------------------
 	//	CARTS
@@ -68,9 +73,11 @@ func New() *echo.Echo {
 	e.DELETE("/delete/products/:id", controllers.DeleteProductOnCartController)
 
 	//---------------------------------------
-	//	TRANSACTION
+	//	TRANSACTIONS
 	//---------------------------------------
-	e.POST("/transaction", controllers.CreateTransactionController)
+	e.POST("/transactions", transaction.CreateTransactionController)
+	e.GET("/transactions", transaction.GetAllTransactionController)
+	e.GET("/transactions/:id", transaction.GetSingleTransactionController)
 
 	return e
 }
