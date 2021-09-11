@@ -17,7 +17,13 @@ func LoginAdminController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Login Failed", nil))
 	}
 
-	return c.JSON(http.StatusOK, util.ResponseSuccess("Login Success", admins))
+	response := Response{
+		ID: admins.ID,
+		Name: admins.Name,
+		Email: admins.Email,
+	}
+
+	return c.JSON(http.StatusOK, util.ResponseSuccess("Login Success", response))
 }
 
 func RegisterAdminController(c echo.Context) error {
@@ -28,15 +34,15 @@ func RegisterAdminController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Field are Required", nil))
 	}
 
-	_, err := database.RegisterAdmin(&regAdmin)
+	admin, err := database.RegisterAdmin(&regAdmin)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Register Failed", nil))
 	}
 
 	response := Response{
-		ID: regAdmin.ID,
-		Name: regAdmin.Name,
-		Email: regAdmin.Email,
+		ID: admin.ID,
+		Name: admin.Name,
+		Email: admin.Email,
 	}
 
 	return c.JSON(http.StatusOK, util.ResponseSuccess("Register Success", response))
