@@ -1,14 +1,14 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"time"
+)
 
 type Payments struct {
-	gorm.Model
+	ID           uint   `gorm:"primarykey"`
 	PaymentName  string `json:"payment_name"`
 	Transactions []Transactions
-}
-
-type PaymentResponse struct {
-	ID          uint
-	PaymentName string
+	CreatedAt    time.Time  `gorm:"column:created_at" json:"-"`
+	UpdatedAt    time.Time  `gorm:"column:updated_at" json:"-"`
+	DeletedAt    *time.Time `gorm:"column:deleted_at" json:"-"`
 }

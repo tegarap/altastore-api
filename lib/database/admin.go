@@ -2,6 +2,7 @@ package database
 
 import (
 	"github.com/tegarap/altastore-api/config"
+	"github.com/tegarap/altastore-api/lib/middleware"
 	"github.com/tegarap/altastore-api/models"
 )
 
@@ -10,14 +11,19 @@ func LoginAdmin(admin *models.Admins) (interface{}, error){
 	if err = config.Db.Where("email = ? AND password = ?", admin.Email, admin.Password).First(admin).Error; err != nil {
 		return nil, err
 	}
-	outAdmin := models.AdminResponse{}
-	return outAdmin, nil
+	admin.Token, err = middleware.CreateToken(int(admin.ID), true)
+	if err != nil {
+		return nil, err
+	}
+	if err = config.Db.Save(admin).Error; err != nil {
+		return nil, err
+	}
+	return admin, nil
 }
 
 func RegisterAdmin(admin *models.Admins) (interface{}, error) {
 	if err := config.Db.Create(&admin).Error; err != nil {
 		return nil, err
 	}
-	outAdmin := models.AdminResponse{}
-	return outAdmin, nil
+	return admin, nil
 }

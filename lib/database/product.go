@@ -10,13 +10,7 @@ func GetAllProduct(product *[]models.Products) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	outputProduct := []models.OutputProduct{}
-	err1 := config.Db.Model(&product).Find(&outputProduct).Error
-	if err1 != nil {
-		return nil, err1
-	}
-	return outputProduct, nil
+	return product, nil
 }
 
 func GetSingleProduct(productId int) (interface{}, error) {
@@ -25,13 +19,7 @@ func GetSingleProduct(productId int) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	outputProduct := models.OutputProduct{}
-	err1 := config.Db.Model(&product).Find(&outputProduct).Error
-	if err1 != nil {
-		return nil, err1
-	}
-	return outputProduct, nil
+	return product, nil
 }
 
 func CreateNewProduct(products *models.Products) (interface{}, error) {
@@ -39,13 +27,7 @@ func CreateNewProduct(products *models.Products) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	outputProduct := models.OutputProduct{}
-	err1 := config.Db.Model(&products).Find(&outputProduct).Error
-	if err1 != nil {
-		return nil, err1
-	}
-	return outputProduct, nil
+	return products, nil
 }
 
 func DeleteProduct(productId int) (interface{}, error) {
@@ -69,12 +51,7 @@ func UpdateProduct(productId int, newProduct *models.Products) (interface{}, int
 		if result.Error != nil {
 			return nil, 0, result.Error
 		}
-		outputProduct := []models.OutputProduct{}
-		err1 := config.Db.Model(&product).Find(&outputProduct).Error
-		if err1 != nil {
-			return nil, 0, err1
-		}
-		return outputProduct, 1, nil
+		return result, 1, nil
 	}
 	return "product not found", 0, nil
 }
