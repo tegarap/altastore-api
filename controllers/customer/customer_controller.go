@@ -1,12 +1,13 @@
 package customer
 
 import (
-	"net/http"
-
 	"github.com/labstack/echo/v4"
 	"github.com/tegarap/altastore-api/lib/database"
+	"github.com/tegarap/altastore-api/lib/middleware"
 	"github.com/tegarap/altastore-api/models"
 	util "github.com/tegarap/jsonres"
+	"net/http"
+	"strconv"
 )
 
 func LoginCustomerController(c echo.Context) error {
@@ -14,6 +15,7 @@ func LoginCustomerController(c echo.Context) error {
 	c.Bind(&customer)
 
 	customers, err := database.LoginCustomer(&customer)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Login Failed", nil))
 	}
@@ -30,6 +32,7 @@ func RegisterCustomerController(c echo.Context) error {
 	}
 
 	customer, err := database.RegisterCustomer(&regCustomer)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Register Failed", nil))
 	}
@@ -37,12 +40,49 @@ func RegisterCustomerController(c echo.Context) error {
 	return c.JSON(http.StatusOK, util.ResponseSuccess("Register Success", customer))
 }
 
+func GetCustomerProfileController(c echo.Context) error {
+	id, isAdmin := middleware.ExtractToken(c)
+
+	if isAdmin == true {
+		customerId := c.QueryParam("customer")
+		getId, err := strconv.Atoi(customerId)
+
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid", nil))
+		}
+
+		customer, err1 := database.GetCustomerProfile(getId)
+
+		if err1 != nil {
+			return c.JSON(http.StatusBadRequest, util.ResponseFail("Fail to Get Customer Profile", nil))
+		}
+
+		return c.JSON(http.StatusOK, util.ResponseSuccess("Success Get Customer Profile", customer))
+	} else {
+		customer, err := database.GetCustomerProfile(id)
+
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, util.ResponseFail("Fail to Get Profile", nil))
+		}
+
+		return c.JSON(http.StatusOK, util.ResponseSuccess("Success Get Profile", customer))
+	}
+}
+
 func GetAllCustomersController(c echo.Context) error {
-	customers := []models.Customers{}
+	var customers []models.Customers
+
+	_, isAdmin := middleware.ExtractToken(c)
+
+	if isAdmin != true {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only Admin can Access", nil))
+	}
 
 	allCustomers, err := database.GetAllCustomers(&customers)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
+
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", allCustomers))
 }

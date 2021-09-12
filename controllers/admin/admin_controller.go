@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/tegarap/altastore-api/lib/database"
 	"github.com/tegarap/altastore-api/lib/middleware"
@@ -14,6 +15,7 @@ func LoginAdminController(c echo.Context) error {
 	c.Bind(&admin)
 
 	admins, err := database.LoginAdmin(&admin)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Login Failed", nil))
 	}
@@ -26,10 +28,12 @@ func RegisterAdminController(c echo.Context) error {
 	c.Bind(&regAdmin)
 
 	if regAdmin.Name == "" || regAdmin.Email == "" || regAdmin.Password == "" {
+		fmt.Println(regAdmin)
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Field are Required", nil))
 	}
 
 	admin, err := database.RegisterAdmin(&regAdmin)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Register Failed", nil))
 	}
@@ -38,8 +42,14 @@ func RegisterAdminController(c echo.Context) error {
 }
 
 func GetAdminProfileController(c echo.Context) error {
-	adminId := middleware.ExtractTokenAdminId(c)
+	adminId, isAdmin := middleware.ExtractToken(c)
+
+	if isAdmin != true {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only Admin can Access", nil))
+	}
+
 	admin, err := database.GetAdminProfile(adminId)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Fail to Get Admin Profile", nil))
 	}

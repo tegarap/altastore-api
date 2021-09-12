@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/tegarap/altastore-api/controllers/admin"
 	"github.com/tegarap/altastore-api/controllers/cart"
 	"github.com/tegarap/altastore-api/controllers/category"
@@ -9,24 +10,33 @@ import (
 	"github.com/tegarap/altastore-api/controllers/payment"
 	"github.com/tegarap/altastore-api/controllers/product"
 	"github.com/tegarap/altastore-api/controllers/transaction"
+	"os"
 )
 
 func New() *echo.Echo {
 	e := echo.New()
+	jwtAuth := e.Group("")
+	jwtAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
+	//customerAuth := e.Group("")
+	//customerAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
+
 
 	//---------------------------------------
 	//	ADMIN
 	//---------------------------------------
 	e.POST("/admin/login", admin.LoginAdminController)
 	e.POST("/admin/register", admin.RegisterAdminController)
-	e.GET("/admin/profile", admin.GetAdminProfileController)
+	// Only admin can access
+	jwtAuth.GET("/admin/profile", admin.GetAdminProfileController)
 
 	//---------------------------------------
 	//	CUSTOMER
 	//---------------------------------------
 	e.POST("/customers/login", customer.LoginCustomerController)
 	e.POST("/customers/register", customer.RegisterCustomerController)
-	e.GET("/customers", customer.GetAllCustomersController)
+	jwtAuth.GET("/customers/profile", customer.GetCustomerProfileController)
+	// Only admin can access
+	jwtAuth.GET("/customers", customer.GetAllCustomersController)
 
 	//---------------------------------------
 	//	CATEGORIES
@@ -48,9 +58,9 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	PAYMENTS
 	//---------------------------------------
-	e.POST("/payments", payment.CreatePaymentController)
-	e.GET("/payments", payment.GetAllPaymentController)
-	e.GET("/payments/:id", payment.GetSinglePaymentController)
+	jwtAuth.POST("/payments", payment.CreatePaymentMethodController)
+	e.GET("/payments", payment.GetAllPaymentMethodController)
+	e.GET("/payments/:id", payment.GetSinglePaymentMethodController)
 
 	//---------------------------------------
 	//	CARTS
@@ -74,8 +84,8 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	TRANSACTIONS
 	//---------------------------------------
-	e.POST("/transactions", transaction.CreateTransactionController)
-	e.GET("/transactions", transaction.GetAllTransactionController)
+	jwtAuth.POST("/transactions", transaction.CreateTransactionController)
+	jwtAuth.GET("/transactions", transaction.GetAllTransactionController)
 	e.GET("/transactions/:id", transaction.GetSingleTransactionController)
 
 	return e
