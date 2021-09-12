@@ -57,9 +57,9 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	PAYMENTS
 	//---------------------------------------
-	e.POST("/payments", payment.CreatePaymentController)
-	e.GET("/payments", payment.GetAllPaymentController)
-	e.GET("/payments/:id", payment.GetSinglePaymentController)
+	jwtAuth.POST("/payments", payment.CreatePaymentMethodController)
+	e.GET("/payments", payment.GetAllPaymentMethodController)
+	e.GET("/payments/:id", payment.GetSinglePaymentMethodController)
 
 	//---------------------------------------
 	//	CARTS
@@ -80,8 +80,8 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	TRANSACTIONS
 	//---------------------------------------
-	e.POST("/transactions", transaction.CreateTransactionController)
-	e.GET("/transactions", transaction.GetAllTransactionController)
+	jwtAuth.POST("/transactions", transaction.CreateTransactionController)
+	jwtAuth.GET("/transactions", transaction.GetAllTransactionController)
 	e.GET("/transactions/:id", transaction.GetSingleTransactionController)
 
 	return e
