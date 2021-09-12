@@ -12,6 +12,7 @@ type Customers struct {
 	Phone        int    `json:"phone" form:"phone"`
 	Address      string `json:"address" form:"address"`
 	Gender       string `json:"gender" sql:"type:ENUM('male', 'female')"`
+	Token        string `json:"token"`
 	Carts        []Carts
 	Transactions []Transactions
 	CreatedAt    time.Time  `gorm:"column:created_at" json:"-"`

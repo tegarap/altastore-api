@@ -2,12 +2,21 @@ package database
 
 import (
 	"github.com/tegarap/altastore-api/config"
+	"github.com/tegarap/altastore-api/lib/middleware"
 	"github.com/tegarap/altastore-api/models"
 	"gorm.io/gorm/clause"
 )
 
 func LoginCustomer(customer *models.Customers) (interface{}, error){
-	if err := config.Db.Where("email = ? AND password = ?", customer.Email, customer.Password).First(customer).Error; err != nil {
+	if er := config.Db.Where("email = ? AND password = ?", customer.Email, customer.Password).First(customer).Error; er != nil {
+		return nil, er
+	}
+	var err error
+	customer.Token, err = middleware.CreateToken(int(customer.ID), false)
+	if err != nil {
+		return nil, err
+	}
+	if err = config.Db.Save(customer).Error; err != nil {
 		return nil, err
 	}
 	return customer, nil

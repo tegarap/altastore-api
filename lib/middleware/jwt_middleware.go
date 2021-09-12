@@ -7,10 +7,11 @@ import (
 	"time"
 )
 
-func CreateToken(userId int) (string, error) {
+func CreateToken(id int, isAdmin bool) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["authorized"] = true
-	claims["userId"] = userId
+	claims["id"] = id
+	claims["isAdmin"] = isAdmin
 	claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(os.Getenv("SECRET_JWT")))
