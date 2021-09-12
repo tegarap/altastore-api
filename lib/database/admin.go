@@ -27,3 +27,11 @@ func RegisterAdmin(admin *models.Admins) (interface{}, error) {
 	}
 	return admin, nil
 }
+
+func GetAdminProfile(id int) (interface{}, error) {
+	admin := models.Admins{}
+	if err := config.Db.Find(&admin, id).Error; err != nil {
+		return nil, err
+	}
+	return admin, nil
+}

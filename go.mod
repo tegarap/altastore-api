@@ -3,6 +3,7 @@ module github.com/tegarap/altastore-api
 go 1.16
 
 require (
+	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/labstack/echo/v4 v4.5.0
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/tegarap/jsonres v0.0.0-20210908062238-36383e86c10e

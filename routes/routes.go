@@ -19,6 +19,7 @@ func New() *echo.Echo {
 	//---------------------------------------
 	e.POST("/admin/login", admin.LoginAdminController)
 	e.POST("/admin/register", admin.RegisterAdminController)
+	e.GET("/admin/profile", admin.GetAdminProfileController)
 
 	//---------------------------------------
 	//	CUSTOMER
@@ -42,14 +43,6 @@ func New() *echo.Echo {
 	e.GET("/products/:id", product.GetSingleProductController)
 	e.DELETE("/products/:id", product.DeleteProductController)
 	e.PUT("/products/:id", product.UpdateProductController)
-
-	//---------------------------------------
-	//	DELIVERIES
-	//---------------------------------------
-
-	//e.POST("/deliveries", controllers.CreateDeliveryController)
-	//e.GET("/deliveries", controllers.GetAllDeliveryController)
-	//e.GET("/deliveries/:id", controllers.GetSingleDeliveryController)
 
 	//---------------------------------------
 	//	PAYMENTS
