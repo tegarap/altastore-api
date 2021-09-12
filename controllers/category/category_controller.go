@@ -14,16 +14,22 @@ func CreateNewCategoriesController(c echo.Context) error {
 	category := models.Categories{}
 	c.Bind(&category)
 
-	newCategory, err := database.CreateNewCategories(&category)
+	newCategory, rowAffected, err := database.CreateNewCategories(&category)
 	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	if rowAffected == 0 {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", newCategory))
 }
 
 func GetAllCategoriesController(c echo.Context) error {
-	category, err := database.GetAllCategories()
+	category, rowAffected, err := database.GetAllCategories()
 	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	if rowAffected == 0 {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", category))
@@ -34,9 +40,49 @@ func GetSingleCategoryController(c echo.Context) error {
 	if errorId != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
-	category, err := database.GetSingleCategory(categoryId)
+	category, rowAffected, err := database.GetSingleCategory(categoryId)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
+
+	if rowAffected == 0 {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", category))
+}
+
+func DeleteCategoryController(c echo.Context) error {
+	categoryId, errorId := strconv.Atoi(c.Param("id"))
+	if errorId != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+
+	deletedCategory, rowAffected, err := database.DeleteCategory(categoryId)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	if rowAffected == 0 {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	return c.JSON(http.StatusOK, util.ResponseSuccess("success", deletedCategory))
+}
+
+func UpdateCategoryController(c echo.Context) error {
+	categoryId, errorId := strconv.Atoi(c.Param("id"))
+	if errorId != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+
+	newCategory := models.Categories{}
+	c.Bind(&newCategory)
+
+	updatedCategory, rowAffected, err := database.UpdateCategory(categoryId, &newCategory)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	if rowAffected == 0 {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	return c.JSON(http.StatusOK, util.ResponseSuccess("success", updatedCategory))
 }
