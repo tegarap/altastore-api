@@ -17,9 +17,6 @@ func New() *echo.Echo {
 	e := echo.New()
 	jwtAuth := e.Group("")
 	jwtAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
-	//customerAuth := e.Group("")
-	//customerAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
-
 
 	//---------------------------------------
 	//	ADMIN
