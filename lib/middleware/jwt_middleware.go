@@ -17,17 +17,8 @@ func CreateToken(id int, isAdmin bool) (string, error) {
 	return token.SignedString([]byte(os.Getenv("SECRET_JWT")))
 }
 
-func ExtractTokenAdminId(e echo.Context) int {
-	user := e.Get("admin").(*jwt.Token)
-	if user.Valid {
-		claims := user.Claims.(jwt.MapClaims)
-		userId := claims["userId"].(float64)
-		return int(userId)
-	}
-	return 0
-}
-func ExtractTokenUserId(e echo.Context) int {
-	user := e.Get("user").(*jwt.Token)
+func ExtractTokenAdminId(c echo.Context) int {
+	user := c.Get("user").(*jwt.Token)
 	if user.Valid {
 		claims := user.Claims.(jwt.MapClaims)
 		userId := claims["userId"].(float64)

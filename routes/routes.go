@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/tegarap/altastore-api/controllers/admin"
 	"github.com/tegarap/altastore-api/controllers/cart"
 	"github.com/tegarap/altastore-api/controllers/category"
@@ -9,17 +10,20 @@ import (
 	"github.com/tegarap/altastore-api/controllers/payment"
 	"github.com/tegarap/altastore-api/controllers/product"
 	"github.com/tegarap/altastore-api/controllers/transaction"
+	"os"
 )
 
 func New() *echo.Echo {
 	e := echo.New()
+	jwtAuth := e.Group("")
+	jwtAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
 
 	//---------------------------------------
 	//	ADMIN
 	//---------------------------------------
 	e.POST("/admin/login", admin.LoginAdminController)
 	e.POST("/admin/register", admin.RegisterAdminController)
-	e.GET("/admin/profile", admin.GetAdminProfileController)
+	jwtAuth.GET("/admin/profile", admin.GetAdminProfileController)
 
 	//---------------------------------------
 	//	CUSTOMER
