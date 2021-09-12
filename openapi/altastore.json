@@ -1,0 +1,584 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Alta Online Store",
+    "description": "Alta Online Store is blablabla",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Tegar Aditia Pratama",
+      "email": "tegara946@gmail.com"
+    },
+    "license": {
+      "name": "APACHE 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "servers": [
+    {
+      "description": "Server Alta Store API",
+      "url": "https://{environment}.altastore.id/api/v1",
+      "variables": {
+        "environment": {
+          "default": "dev",
+          "enum": [
+            "dev",
+            "prod"
+          ]
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/customers/register": {
+      "post": {
+        "tags": [
+          "Customers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomersSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/registerSuccess"
+          },
+          "400": {
+            "$ref": "#/components/responses/registerFail"
+          }
+        }
+      }
+    },
+    "/customers/login": {
+      "post": {
+        "tags": [
+          "Customers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "rudy.sujarwo@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "qwert54321"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Response200"
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400"
+          }
+        }
+      }
+    },
+    "/customers": {
+      "get": {
+        "tags": [
+          "Customers"
+        ],
+        "responses": {
+          "200": {
+            "description": "get all customers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayOfCustomerSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400"
+          }
+        }
+      }
+    },
+    "/customers/{id}": {
+      "get": {
+        "tags": [
+          "Customers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "get customer by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleCustomerSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Customers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomersSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Response200"
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Customers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Response200"
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400"
+          }
+        }
+      }
+    },
+    "/products": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Response200"
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "get all products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayOfProductSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400"
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "get all products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Response200"
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "number",
+              "example": 1
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Response200"
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "registerSuccess": {
+        "description": "success register",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Register Success"
+                }
+              }
+            }
+          }
+        }
+      },
+      "registerFail": {
+        "description": "fail to register",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fail to Register"
+                }
+              }
+            }
+          }
+        }
+      },
+      "loginSuccess": {
+        "description": "success login",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Login Success"
+                }
+              }
+            }
+          }
+        }
+      },
+      "loginFail": {
+        "description": "fail to login",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fail to Login"
+                }
+              }
+            }
+          }
+        }
+      },
+      "getCustomerSuccess": {
+        "description": "success get customer by id",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Success get customer"
+                },
+                "data": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "getCustomerFail": {
+        "description": "fail to login",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fail to Login"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Response200": {
+        "description": "success create",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Success Operation"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Response400": {
+        "description": "bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "CustomersSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Boboboy Pratama"
+          },
+          "email": {
+            "type": "string",
+            "example": "boboboy.pratama@gmail.com"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "password": {
+            "type": "string",
+            "example": "asdf123"
+          }
+        }
+      },
+      "ArrayOfCustomerSchema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/CustomersSchema"
+        }
+      },
+      "SimpleCustomerSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Boboboy Pratama"
+          },
+          "email": {
+            "type": "string",
+            "example": "boboboypratama@gmail.com"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          }
+        }
+      },
+      "ProductSchema": {
+        "type": "object",
+        "properties": {
+          "product_name": {
+            "type": "string",
+            "example": "Sabun Wing"
+          },
+          "product_description": {
+            "type": "string",
+            "example": "ini adalah sabun wing"
+          },
+          "product_category": {
+            "type": "string",
+            "example": "alat mandi"
+          },
+          "product_quantity": {
+            "type": "integer",
+            "example": 10
+          }
+        }
+      },
+      "ArrayOfProductSchema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ProductSchema"
+        }
+      }
+    }
+  }
+}
