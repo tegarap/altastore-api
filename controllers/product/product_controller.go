@@ -13,8 +13,11 @@ import (
 func GetAllProductController(c echo.Context) error {
 	product := []models.Products{}
 
-	newProduct, err := database.GetAllProduct(&product)
+	newProduct, rowAffected, err := database.GetAllProduct(&product)
 	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	if rowAffected == 0 {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", newProduct))
@@ -26,8 +29,11 @@ func GetSingleProductController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
 
-	product, err := database.GetSingleProduct(productId)
+	product, rowAffected, err := database.GetSingleProduct(productId)
 	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	if rowAffected == 0 {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", product))
@@ -49,8 +55,11 @@ func DeleteProductController(c echo.Context) error {
 	if errorId != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
-	result, err := database.DeleteProduct(productId)
+	result, rowAffected, err := database.DeleteProduct(productId)
 	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	if rowAffected == 0 {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", result))

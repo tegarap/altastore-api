@@ -5,21 +5,27 @@ import (
 	"github.com/tegarap/altastore-api/models"
 )
 
-func GetAllProduct(product *[]models.Products) (interface{}, error) {
-	err := config.Db.Preload("CartsDetail").Find(&product).Error
-	if err != nil {
-		return nil, err
+func GetAllProduct(product *[]models.Products) (interface{}, int, error) {
+	tx := config.Db.Preload("CartsDetail").Find(&product)
+	if tx.Error != nil {
+		return nil, 0, tx.Error
 	}
-	return product, nil
+	if tx.RowsAffected > 0 {
+		return product, 1, nil
+	}
+	return nil, 0, nil
 }
 
-func GetSingleProduct(productId int) (interface{}, error) {
+func GetSingleProduct(productId int) (interface{}, int, error) {
 	product := models.Products{}
-	err := config.Db.Preload("CartsDetail").Find(&product, productId).Error
-	if err != nil {
-		return nil, err
+	tx := config.Db.Preload("CartsDetail").Find(&product, productId)
+	if tx.Error != nil {
+		return nil, 0, tx.Error
 	}
-	return product, nil
+	if tx.RowsAffected > 0 {
+		return product, 1, nil
+	}
+	return nil, 0, nil
 }
 
 func CreateNewProduct(products *models.Products) (interface{}, error) {
@@ -30,13 +36,16 @@ func CreateNewProduct(products *models.Products) (interface{}, error) {
 	return products, nil
 }
 
-func DeleteProduct(productId int) (interface{}, error) {
+func DeleteProduct(productId int) (interface{}, int, error) {
 	product := models.Products{}
 	result := config.Db.Delete(&product, productId)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, 0, result.Error
 	}
-	return "deleted", nil
+	if result.RowsAffected > 0 {
+		return "deleted", 0, nil
+	}
+	return "failed", 0, nil
 }
 
 func UpdateProduct(productId int, newProduct *models.Products) (interface{}, int, error) {
@@ -51,7 +60,7 @@ func UpdateProduct(productId int, newProduct *models.Products) (interface{}, int
 		if result.Error != nil {
 			return nil, 0, result.Error
 		}
-		return result, 1, nil
+		return product, 1, nil
 	}
 	return "product not found", 0, nil
 }
