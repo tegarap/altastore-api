@@ -17,12 +17,16 @@ func New() *echo.Echo {
 	e := echo.New()
 	jwtAuth := e.Group("")
 	jwtAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
+	//customerAuth := e.Group("")
+	//customerAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
+
 
 	//---------------------------------------
 	//	ADMIN
 	//---------------------------------------
 	e.POST("/admin/login", admin.LoginAdminController)
 	e.POST("/admin/register", admin.RegisterAdminController)
+	// Only admin can access
 	jwtAuth.GET("/admin/profile", admin.GetAdminProfileController)
 
 	//---------------------------------------
@@ -30,7 +34,9 @@ func New() *echo.Echo {
 	//---------------------------------------
 	e.POST("/customers/login", customer.LoginCustomerController)
 	e.POST("/customers/register", customer.RegisterCustomerController)
-	e.GET("/customers", customer.GetAllCustomersController)
+	jwtAuth.GET("/customers/profile", customer.GetCustomerProfileController)
+	// Only admin can access
+	jwtAuth.GET("/customers", customer.GetAllCustomersController)
 
 	//---------------------------------------
 	//	CATEGORIES
