@@ -10,12 +10,15 @@ import (
 	util "github.com/tegarap/jsonres"
 )
 
-func CreateNewCartDetailController(c echo.Context) error {
+func AddProductOnCart(c echo.Context) error {
 	cartDetail := models.CartsDetail{}
 	c.Bind(&cartDetail)
 
-	newCartDetail, err := database.CreateNewCartDetail(&cartDetail)
+	newCartDetail, rowAffected, err := database.AddProductOnCart(&cartDetail)
 	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	if rowAffected == 0 {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", newCartDetail))
@@ -23,8 +26,11 @@ func CreateNewCartDetailController(c echo.Context) error {
 
 func GetAllCartDetailController(c echo.Context) error {
 	cartDetails := []models.CartsDetail{}
-	findAllDetails, err := database.GetAllCartDetail(&cartDetails)
+	findAllDetails, rowAffected, err := database.GetAllCartDetail(&cartDetails)
 	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	if rowAffected == 0 {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", findAllDetails))
@@ -36,8 +42,11 @@ func GetSingleCartDetailController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
 
-	findDetails, err := database.GetSingleCartDetail(cartDetailId)
+	findDetails, rowAffected, err := database.GetSingleCartDetail(cartDetailId)
 	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	if rowAffected == 0 {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", findDetails))
@@ -69,8 +78,11 @@ func DeleteProductOnCartController(c echo.Context) error {
 	if errorId != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
-	result, err := database.DeleteProductOnCart(cartDetailId)
+	result, rowAffected, err := database.DeleteProductOnCart(cartDetailId)
 	if err != nil {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
+	}
+	if rowAffected == 0 {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
 	}
 	return c.JSON(http.StatusOK, util.ResponseSuccess("success", result))

@@ -72,7 +72,7 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	CART DETAILS
 	//---------------------------------------
-	e.POST("/add/products", cart.CreateNewCartDetailController)
+	e.POST("/add/products", cart.AddProductOnCart)
 	e.GET("/carts/detail", cart.GetAllCartDetailController)
 	e.GET("/carts/detail/:id", cart.GetSingleCartDetailController)
 	e.PUT("/edit/products/:id", cart.UpdatedProductOnCartController)
