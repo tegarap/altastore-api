@@ -12,17 +12,19 @@ func CreateTransaction(transaction *models.Transactions) (interface{}, error) {
 	return transaction, nil
 }
 
-func GetAllTransaction(transactions *[]models.Transactions) (interface{}, error) {
+func GetTransactionByAllCustomer(transactions *[]models.Transactions) (interface{}, error) {
 	if err := config.Db.Find(&transactions).Error; err != nil {
 		return nil, err
 	}
 	return transactions, nil
 }
 
-func GetSingleTransaction(id int) (interface{}, error) {
-	var transaction models.Transactions
-	if err := config.Db.Find(&transaction, id).Error; err != nil {
-		return transaction, err
+func GetTransaction(customerId int) (interface{}, error) {
+	transaction := models.Transactions{}
+
+	if err := config.Db.Where("customers_id = ?", customerId).Find(&transaction).Error; err != nil {
+		return nil, err
 	}
+
 	return transaction, nil
 }
