@@ -6,15 +6,20 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/tegarap/altastore-api/lib/database"
+	"github.com/tegarap/altastore-api/lib/middleware"
 	"github.com/tegarap/altastore-api/models"
 	util "github.com/tegarap/jsonres"
 )
 
 func CreateNewCartController(c echo.Context) error {
+	customerId, isAdmin := middleware.ExtractToken(c)
+	if isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only customer can create new cart", nil))
+	}
 	cart := models.Carts{}
 	c.Bind(&cart)
 
-	newCart, rowAffected, err := database.CreateNewCart(&cart)
+	newCart, rowAffected, err := database.CreateNewCart(&cart, customerId)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Failed to create new cart", nil))
 	}
@@ -25,6 +30,10 @@ func CreateNewCartController(c echo.Context) error {
 }
 
 func GetAllCartsController(c echo.Context) error {
+	_, isAdmin := middleware.ExtractToken(c)
+	if !isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only admin can get all carts", nil))
+	}
 	carts := []models.Carts{}
 	allCarts, rowAffected, err := database.GetAllCarts(&carts)
 	if err != nil {
@@ -37,7 +46,12 @@ func GetAllCartsController(c echo.Context) error {
 }
 
 func GetSingleCartController(c echo.Context) error {
-	cartId, errorId := strconv.Atoi(c.Param("id"))
+	_, isAdmin := middleware.ExtractToken(c)
+	if !isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only admin can get single carts", nil))
+	}
+
+	cartId, errorId := strconv.Atoi(c.QueryParam("cart_id"))
 	if errorId != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid cart id", nil))
 	}
@@ -54,9 +68,9 @@ func GetSingleCartController(c echo.Context) error {
 }
 
 func GetCustomersCartsController(c echo.Context) error {
-	customerId, errorId := strconv.Atoi(c.Param("id"))
-	if errorId != nil {
-		return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid customer id", nil))
+	customerId, isAdmin := middleware.ExtractToken(c)
+	if isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only customers can see their own cart", nil))
 	}
 
 	listCarts, rowAffected, err := database.GetCustomersCarts(customerId)
@@ -83,9 +97,9 @@ func GetCustomersCartsController(c echo.Context) error {
 }
 
 func GetSingleCustomersCartController(c echo.Context) error {
-	customerId, errorId := strconv.Atoi(c.Param("id"))
-	if errorId != nil {
-		return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid customer id", nil))
+	customerId, isAdmin := middleware.ExtractToken(c)
+	if isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only customers can see their own cart", nil))
 	}
 
 	cartId, errorId := strconv.Atoi(c.Param("cart_id"))
@@ -117,12 +131,17 @@ func GetSingleCustomersCartController(c echo.Context) error {
 }
 
 func DeleteCartController(c echo.Context) error {
+	customerId, isAdmin := middleware.ExtractToken(c)
+	if isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only customers can see their own cart", nil))
+	}
+
 	cartId, errorId := strconv.Atoi(c.Param("id"))
 	if errorId != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid cart id", nil))
 	}
 
-	deletedCart, rowAffected, err := database.DeleteCart(cartId)
+	deletedCart, rowAffected, err := database.DeleteCart(cartId, customerId)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Failed to delete cart", nil))
 	}

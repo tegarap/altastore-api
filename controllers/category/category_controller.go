@@ -6,11 +6,17 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/tegarap/altastore-api/lib/database"
+	"github.com/tegarap/altastore-api/lib/middleware"
 	"github.com/tegarap/altastore-api/models"
 	util "github.com/tegarap/jsonres"
 )
 
 func CreateNewCategoriesController(c echo.Context) error {
+	_, isAdmin := middleware.ExtractToken(c)
+	if !isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only admin can create new product category", nil))
+	}
+
 	category := models.Categories{}
 	c.Bind(&category)
 
@@ -53,6 +59,11 @@ func GetSingleCategoryController(c echo.Context) error {
 }
 
 func DeleteCategoryController(c echo.Context) error {
+	_, isAdmin := middleware.ExtractToken(c)
+	if !isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only admin can delete product category", nil))
+	}
+
 	categoryId, errorId := strconv.Atoi(c.Param("id"))
 	if errorId != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid category id", nil))
@@ -69,6 +80,10 @@ func DeleteCategoryController(c echo.Context) error {
 }
 
 func UpdateCategoryController(c echo.Context) error {
+	_, isAdmin := middleware.ExtractToken(c)
+	if !isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only admin can update product category", nil))
+	}
 	categoryId, errorId := strconv.Atoi(c.Param("id"))
 	if errorId != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Failed to update product category", nil))

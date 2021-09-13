@@ -5,7 +5,10 @@ import (
 	"github.com/tegarap/altastore-api/models"
 )
 
-func CreateNewCart(cart *models.Carts) (interface{}, int, error) {
+func CreateNewCart(cart *models.Carts, customerId int) (interface{}, int, error) {
+	cart = &models.Carts{
+		CustomersID: uint(customerId),
+	}
 	result := config.Db.Create(&cart)
 	if result.Error != nil {
 		return nil, 0, result.Error
@@ -62,9 +65,9 @@ func GetSingleCustomersCart(customerId int, cartId int) (models.Carts, int, erro
 	return models.Carts{}, 0, nil
 }
 
-func DeleteCart(cartId int) (interface{}, int, error) {
+func DeleteCart(cartId int, customerId int) (interface{}, int, error) {
 	cart := models.Carts{}
-	result := config.Db.Where("cart_status = 'active'").Delete(&cart, cartId)
+	result := config.Db.Where("customers_id = ?", customerId).Where("cart_status = 'active'").Delete(&cart, cartId)
 	if result.Error != nil {
 		return nil, 0, result.Error
 	}

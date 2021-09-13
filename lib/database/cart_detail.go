@@ -5,10 +5,14 @@ import (
 	"github.com/tegarap/altastore-api/models"
 )
 
-func AddProductOnCart(cartDetail *models.CartsDetail) (interface{}, int, error) {
+func AddProductOnCart(cartDetail *models.CartsDetail, customerId int) (interface{}, int, error) {
 	cart := models.Carts{}
 	findCart := config.Db.Find(&cart, cartDetail.CartsID)
 	if findCart.Error != nil {
+		return nil, 0, findCart.Error
+	}
+
+	if cart.CustomersID != uint(customerId) {
 		return nil, 0, findCart.Error
 	}
 
@@ -34,34 +38,21 @@ func AddProductOnCart(cartDetail *models.CartsDetail) (interface{}, int, error) 
 	return cartDetail, 1, nil
 }
 
-func GetAllCartDetail(cartDetail *[]models.CartsDetail) (interface{}, int, error) {
-	result := config.Db.Find(&cartDetail)
-	if result.Error != nil {
-		return nil, 0, result.Error
-	}
-	if result.RowsAffected > 0 {
-		return cartDetail, 1, nil
-	}
-	return nil, 0, nil
-}
-
-func GetSingleCartDetail(cartDetailId int) (interface{}, int, error) {
-	cartDetail := models.CartsDetail{}
-	result := config.Db.Find(&cartDetail, cartDetailId)
-	if result.Error != nil {
-		return nil, 0, result.Error
-	}
-	if result.RowsAffected > 0 {
-		return cartDetail, 1, nil
-	}
-	return nil, 0, nil
-}
-
-func UpdatedProductOnCart(cartDetailId int, updatedDetail *models.CartsDetail) (interface{}, int, error) {
+func UpdatedProductOnCart(customerId int, cartDetailId int, updatedDetail *models.CartsDetail) (interface{}, int, error) {
 	cartDetails := models.CartsDetail{}
 	findId := config.Db.Find(&cartDetails, cartDetailId)
 	if findId.Error != nil {
 		return nil, 0, findId.Error
+	}
+
+	cart := models.Carts{}
+	findCart := config.Db.Find(&cart, cartDetails.CartsID)
+	if findCart.Error != nil {
+		return nil, 0, findCart.Error
+	}
+
+	if cart.CustomersID != uint(customerId) {
+		return nil, 0, findCart.Error
 	}
 
 	if findId.RowsAffected > 0 {
@@ -96,11 +87,21 @@ func UpdatedProductOnCart(cartDetailId int, updatedDetail *models.CartsDetail) (
 	return "product id not found", 0, nil
 }
 
-func DeleteProductOnCart(cartDetailId int) (interface{}, int, error) {
+func DeleteProductOnCart(cartDetailId, customerId int) (interface{}, int, error) {
 	cartDetail := models.CartsDetail{}
 	findCartDetail := config.Db.Find(&cartDetail, cartDetailId)
 	if findCartDetail.Error != nil {
 		return nil, 0, findCartDetail.Error
+	}
+
+	cart := models.Carts{}
+	findCart := config.Db.Find(&cart, cartDetail.CartsID)
+	if findCart.Error != nil {
+		return nil, 0, findCart.Error
+	}
+
+	if cart.CustomersID != uint(customerId) {
+		return nil, 0, findCart.Error
 	}
 
 	products := models.Products{}
@@ -122,6 +123,29 @@ func DeleteProductOnCart(cartDetailId int) (interface{}, int, error) {
 
 	if tx.RowsAffected > 0 {
 		return "deleted", 1, nil
+	}
+	return nil, 0, nil
+}
+
+func GetAllCartDetail(cartDetail *[]models.CartsDetail) (interface{}, int, error) {
+	result := config.Db.Find(&cartDetail)
+	if result.Error != nil {
+		return nil, 0, result.Error
+	}
+	if result.RowsAffected > 0 {
+		return cartDetail, 1, nil
+	}
+	return nil, 0, nil
+}
+
+func GetSingleCartDetail(cartDetailId int) (interface{}, int, error) {
+	cartDetail := models.CartsDetail{}
+	result := config.Db.Find(&cartDetail, cartDetailId)
+	if result.Error != nil {
+		return nil, 0, result.Error
+	}
+	if result.RowsAffected > 0 {
+		return cartDetail, 1, nil
 	}
 	return nil, 0, nil
 }

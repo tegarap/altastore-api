@@ -43,7 +43,7 @@ func DeleteProduct(productId int) (interface{}, int, error) {
 		return nil, 0, result.Error
 	}
 	if result.RowsAffected > 0 {
-		return "deleted", 0, nil
+		return "deleted", 1, nil
 	}
 	return "failed", 0, nil
 }

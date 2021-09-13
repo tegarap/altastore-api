@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"os"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/tegarap/altastore-api/controllers/admin"
@@ -10,7 +12,6 @@ import (
 	"github.com/tegarap/altastore-api/controllers/payment"
 	"github.com/tegarap/altastore-api/controllers/product"
 	"github.com/tegarap/altastore-api/controllers/transaction"
-	"os"
 )
 
 func New() *echo.Echo {
@@ -19,7 +20,6 @@ func New() *echo.Echo {
 	jwtAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
 	//customerAuth := e.Group("")
 	//customerAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
-
 
 	//---------------------------------------
 	//	ADMIN
@@ -41,19 +41,19 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	CATEGORIES
 	//---------------------------------------
-	e.POST("/categories", category.CreateNewCategoriesController)
+	jwtAuth.POST("/categories", category.CreateNewCategoriesController)
 	e.GET("/categories", category.GetAllCategoriesController)
 	e.GET("/categories/:id", category.GetSingleCategoryController)
-	e.PUT("/categories/:id", category.UpdateCategoryController)
-	e.DELETE("/categories/:id", category.DeleteCategoryController)
+	jwtAuth.PUT("/categories/:id", category.UpdateCategoryController)
+	jwtAuth.DELETE("/categories/:id", category.DeleteCategoryController)
 	//---------------------------------------
 	//	PRODUCTS
 	//---------------------------------------
-	e.POST("/products", product.CreateNewProductController)
+	jwtAuth.POST("/products", product.CreateNewProductController)
 	e.GET("/products", product.GetAllProductController)
 	e.GET("/products/:id", product.GetSingleProductController)
-	e.DELETE("/products/:id", product.DeleteProductController)
-	e.PUT("/products/:id", product.UpdateProductController)
+	jwtAuth.DELETE("/products/:id", product.DeleteProductController)
+	jwtAuth.PUT("/products/:id", product.UpdateProductController)
 
 	//---------------------------------------
 	//	PAYMENTS
@@ -65,21 +65,19 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	CARTS
 	//---------------------------------------
-	e.POST("/carts", cart.CreateNewCartController)
-	e.GET("/carts", cart.GetAllCartsController)
-	e.GET("/carts/:id", cart.GetSingleCartController)
-	e.GET("/customers/:id/carts", cart.GetCustomersCartsController)
-	e.GET("/customers/:id/carts/:cart_id", cart.GetSingleCustomersCartController)
-	e.DELETE("/carts/:id", cart.DeleteCartController)
+	jwtAuth.POST("/carts", cart.CreateNewCartController)
+	jwtAuth.GET("/carts", cart.GetAllCartsController)
+	jwtAuth.GET("/cart", cart.GetSingleCartController)
+	jwtAuth.GET("/customers/carts", cart.GetCustomersCartsController)
+	jwtAuth.GET("/customers/carts/:cart_id", cart.GetSingleCustomersCartController)
+	jwtAuth.DELETE("/carts/:id", cart.DeleteCartController)
 	e.PUT("/carts/:id", cart.UpdatedCartStatusController)
 	//---------------------------------------
 	//	CART DETAILS
 	//---------------------------------------
-	e.POST("/add/products", cart.AddProductOnCart)
-	e.GET("/carts/detail", cart.GetAllCartDetailController)
-	e.GET("/carts/detail/:id", cart.GetSingleCartDetailController)
-	e.PUT("/edit/products/:id", cart.UpdatedProductOnCartController)
-	e.DELETE("/delete/products/:id", cart.DeleteProductOnCartController)
+	jwtAuth.POST("/add/products", cart.AddProductOnCart)
+	jwtAuth.PUT("/edit/products/:id", cart.UpdatedProductOnCartController)
+	jwtAuth.DELETE("/delete/products/:id", cart.DeleteProductOnCartController)
 
 	//---------------------------------------
 	//	TRANSACTIONS

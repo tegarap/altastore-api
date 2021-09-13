@@ -6,6 +6,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/tegarap/altastore-api/lib/database"
+	"github.com/tegarap/altastore-api/lib/middleware"
 	"github.com/tegarap/altastore-api/models"
 	util "github.com/tegarap/jsonres"
 )
@@ -40,6 +41,10 @@ func GetSingleProductController(c echo.Context) error {
 }
 
 func CreateNewProductController(c echo.Context) error {
+	_, isAdmin := middleware.ExtractToken(c)
+	if !isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only admin can create new product", nil))
+	}
 	product := models.Products{}
 	c.Bind(&product)
 
@@ -51,6 +56,10 @@ func CreateNewProductController(c echo.Context) error {
 }
 
 func DeleteProductController(c echo.Context) error {
+	_, isAdmin := middleware.ExtractToken(c)
+	if !isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only admin can delete product data", nil))
+	}
 	productId, errorId := strconv.Atoi(c.Param("id"))
 	if errorId != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid product id", nil))
@@ -66,6 +75,10 @@ func DeleteProductController(c echo.Context) error {
 }
 
 func UpdateProductController(c echo.Context) error {
+	_, isAdmin := middleware.ExtractToken(c)
+	if !isAdmin {
+		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only admin can update product data", nil))
+	}
 	productId, errorId := strconv.Atoi(c.Param("id"))
 	if errorId != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid product id", nil))
