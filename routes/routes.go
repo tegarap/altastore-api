@@ -17,9 +17,6 @@ func New() *echo.Echo {
 	e := echo.New()
 	jwtAuth := e.Group("")
 	jwtAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
-	//customerAuth := e.Group("")
-	//customerAuth.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT"))))
-
 
 	//---------------------------------------
 	//	ADMIN
@@ -59,8 +56,11 @@ func New() *echo.Echo {
 	//	PAYMENTS
 	//---------------------------------------
 	jwtAuth.POST("/payments", payment.CreatePaymentMethodController)
-	e.GET("/payments", payment.GetAllPaymentMethodController)
-	e.GET("/payments/:id", payment.GetSinglePaymentMethodController)
+	jwtAuth.GET("/payments", payment.GetAllPaymentMethodController)
+	jwtAuth.GET("/payments/:id", payment.GetSinglePaymentMethodController)
+	jwtAuth.DELETE("/payments/:id", payment.DeletePaymentMethodController)
+	jwtAuth.PUT("/payments/:id", payment.UpdatePaymentMethodController)
+
 
 	//---------------------------------------
 	//	CARTS
@@ -85,8 +85,7 @@ func New() *echo.Echo {
 	//	TRANSACTIONS
 	//---------------------------------------
 	jwtAuth.POST("/transactions", transaction.CreateTransactionController)
-	jwtAuth.GET("/transactions", transaction.GetAllTransactionController)
-	e.GET("/transactions/:id", transaction.GetSingleTransactionController)
+	jwtAuth.GET("/transactions", transaction.GetTransactionController)
 
 	return e
 }
