@@ -40,3 +40,11 @@ func DeletePaymentMethod(id int) (interface{}, error) {
 
 	return payment, nil
 }
+
+func UpdatePaymentMethod(payment interface{}, newPayment *models.Payments) (interface{}, error) {
+	if err := config.Db.Model(payment).Updates(newPayment).Error; err != nil {
+		return nil, err
+	}
+
+	return payment, nil
+}
