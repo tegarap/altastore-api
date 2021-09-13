@@ -85,8 +85,7 @@ func New() *echo.Echo {
 	//	TRANSACTIONS
 	//---------------------------------------
 	jwtAuth.POST("/transactions", transaction.CreateTransactionController)
-	jwtAuth.GET("/transactions", transaction.GetAllTransactionController)
-	e.GET("/transactions/:id", transaction.GetSingleTransactionController)
+	jwtAuth.GET("/transactions", transaction.GetTransactionController)
 
 	return e
 }
