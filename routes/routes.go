@@ -56,8 +56,11 @@ func New() *echo.Echo {
 	//	PAYMENTS
 	//---------------------------------------
 	jwtAuth.POST("/payments", payment.CreatePaymentMethodController)
-	e.GET("/payments", payment.GetAllPaymentMethodController)
-	e.GET("/payments/:id", payment.GetSinglePaymentMethodController)
+	jwtAuth.GET("/payments", payment.GetAllPaymentMethodController)
+	jwtAuth.GET("/payments/:id", payment.GetSinglePaymentMethodController)
+	jwtAuth.DELETE("/payments/:id", payment.DeletePaymentMethodController)
+	//jwtAuth.PUT("/payments/:id", payment.UpdatePaymentMethodController)
+
 
 	//---------------------------------------
 	//	CARTS
