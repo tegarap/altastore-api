@@ -50,8 +50,10 @@ Where full URLs are provided in responses they will be rendered as if service is
 
 ## Carts
 
-* [Create New Cart](#) : `POST /payments`
-* [Get All Cart](#) : `GET /payments`
+* [Create New Cart](#) : `POST /carts`
+* [Get All Cart](#) : `GET /carts`
+* [Get Single Cart](#) : `GET /carts/:id`
+* 
 `.... dst`
 
 ## Cart Details
