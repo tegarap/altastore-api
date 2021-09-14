@@ -44,13 +44,8 @@ func GetCustomerProfileController(c echo.Context) error {
 	id, isAdmin := middleware.ExtractToken(c)
 
 	if isAdmin == true {
-		customerId := c.QueryParam("customer")
-		getId, err := strconv.Atoi(customerId)
-
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid", nil))
-		}
-
+		customerId := c.QueryParam("id")
+		getId, _ := strconv.Atoi(customerId)
 		customer, err1 := database.GetCustomerProfile(getId)
 
 		if err1 != nil {
@@ -78,7 +73,7 @@ func GetAllCustomersController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only Admin can Access", nil))
 	}
 
-	allCustomers, err := database.GetAllCustomers(&customers)
+	allCustomers, err := database.GetAllCustomerSimple(&customers)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))

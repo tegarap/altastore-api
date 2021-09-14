@@ -155,11 +155,10 @@ func TestGetAdminProfileController(t *testing.T) {
 	}
 
 	e := initEchoTestAPI()
-	//e.Use(middleware.JWT([]byte(os.Getenv("SECRET_JWT_TEST"))))
 	InsertData()
 	InsertData2()
-	adminToken, _ := middleware.CreateTokenTest(int(1), true)
-	customerToken, _ := middleware.CreateTokenTest(int(2), false)
+	adminToken, _ := middleware.CreateTokenTest(1, true)
+	customerToken, _ := middleware.CreateTokenTest(2, false)
 	for i, testCase := range testCases {
 		req := httptest.NewRequest(http.MethodGet, "/admin/profile", nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
