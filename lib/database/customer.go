@@ -51,3 +51,10 @@ func GetAllCustomers(customers *[]models.Customers) (interface{}, error) {
 
 	return customers, nil
 }
+func GetAllCustomerSimple(customers *[]models.Customers) (interface{}, error) {
+	if err := config.Db.Find(&customers).Error; err != nil {
+		return nil, err
+	}
+
+	return customers, nil
+}

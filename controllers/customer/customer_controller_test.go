@@ -53,19 +53,6 @@ func InsertData2() error {
 	}
 	return nil
 }
-func InsertData3() error {
-	customer := models.Customers{
-		Name:     "Tegar",
-		Email:    "tegar@gmail.com",
-		Password: "12345678",
-	}
-
-	var err error
-	if err = config.Db.Save(&customer).Error; err != nil {
-		return err
-	}
-	return nil
-}
 
 func TestLoginCustomersController(t *testing.T) {
 	var testCases = []struct {
@@ -89,7 +76,7 @@ func TestLoginCustomersController(t *testing.T) {
 	InsertData()
 	for _, testCase := range testCases {
 		requestBody, _ := json.Marshal(testCase.reqBody)
-		req := httptest.NewRequest(http.MethodPost, "/customer/login", bytes.NewBuffer(requestBody))
+		req := httptest.NewRequest(http.MethodPost, "/customers/login", bytes.NewBuffer(requestBody))
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		res := httptest.NewRecorder()
 		context := e.NewContext(req, res)
@@ -133,7 +120,7 @@ func TestRegisterCustomerController(t *testing.T) {
 			config.Db.Migrator().DropTable(&models.Customers{})
 		}
 		requestBody, _ := json.Marshal(testCase.reqBody)
-		req := httptest.NewRequest(http.MethodPost, "/customer/register", bytes.NewBuffer(requestBody))
+		req := httptest.NewRequest(http.MethodPost, "/customers/register", bytes.NewBuffer(requestBody))
 		req.Header.Set("Content-Type", "application/json")
 		res := httptest.NewRecorder()
 		context := e.NewContext(req, res)
@@ -186,7 +173,7 @@ func TestGetCustomerProfileController(t *testing.T) {
 	adminToken, _ := middleware.CreateTokenTest(1, true)
 	customerToken, _ := middleware.CreateTokenTest(2, false)
 	for _, testCase := range testCasesAdmin {
-		req := httptest.NewRequest(http.MethodGet, "/customer/profile", nil)
+		req := httptest.NewRequest(http.MethodGet, "/customers/profile", nil)
 		q := req.URL.Query()
 		q.Add("id", testCase.queryValue)
 		req.URL.RawQuery = q.Encode()
@@ -207,7 +194,7 @@ func TestGetCustomerProfileController(t *testing.T) {
 		assert.Equal(t, testCase.responStatus, response.Status)
 	}
 	for i, testCase := range testCasesCustomer {
-		req := httptest.NewRequest(http.MethodGet, "/customer/profile", nil)
+		req := httptest.NewRequest(http.MethodGet, "/customers/profile", nil)
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(echo.HeaderAuthorization, fmt.Sprintf("Bearer %v", customerToken))
 		res := httptest.NewRecorder()
@@ -217,6 +204,56 @@ func TestGetCustomerProfileController(t *testing.T) {
 			config.Db.Migrator().DropTable(&models.Customers{})
 		}
 		err := m.JWT([]byte(os.Getenv("SECRET_JWT_TEST")))(GetCustomerProfileController)(context)
+		if err != nil {
+			return
+		}
+		assert.Equal(t, testCase.expectCode, res.Code)
+		resBody := res.Body.String()
+
+		var response customerResponse
+		json.Unmarshal([]byte(resBody), &response)
+		assert.Equal(t, testCase.responStatus, response.Status)
+	}
+}
+
+func TestGetAllCustomersController(t *testing.T) {
+	var testCases = []struct {
+		expectCode   int
+		responStatus string
+	}{
+		{
+			expectCode:   http.StatusOK,
+			responStatus: "success",
+		},
+		{
+			expectCode:   http.StatusBadRequest,
+			responStatus: "fail",
+		},
+		{
+			expectCode:   http.StatusBadRequest,
+			responStatus: "fail",
+		},
+	}
+	e := initEchoTestAPI()
+	InsertData()
+	InsertData2()
+	adminToken, _ := middleware.CreateTokenTest(1, true)
+	customerToken, _ := middleware.CreateTokenTest(2, false)
+	for i, testCase := range testCases {
+		if i == 2 {
+			config.Db.Migrator().DropTable(&models.Customers{})
+		}
+		req := httptest.NewRequest(http.MethodGet, "/customers", nil)
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		if i == 1 {
+			req.Header.Set(echo.HeaderAuthorization, fmt.Sprintf("Bearer %v", customerToken))
+		} else {
+			req.Header.Set(echo.HeaderAuthorization, fmt.Sprintf("Bearer %v", adminToken))
+		}
+		res := httptest.NewRecorder()
+		context := e.NewContext(req, res)
+
+		err := m.JWT([]byte(os.Getenv("SECRET_JWT_TEST")))(GetAllCustomersController)(context)
 		if err != nil {
 			return
 		}

@@ -1,7 +1,6 @@
 package customer
 
 import (
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/tegarap/altastore-api/lib/database"
 	"github.com/tegarap/altastore-api/lib/middleware"
@@ -47,9 +46,6 @@ func GetCustomerProfileController(c echo.Context) error {
 	if isAdmin == true {
 		customerId := c.QueryParam("id")
 		getId, _ := strconv.Atoi(customerId)
-		fmt.Println("--------------------------------------------")
-		fmt.Println(getId)
-
 		customer, err1 := database.GetCustomerProfile(getId)
 
 		if err1 != nil {
@@ -77,7 +73,7 @@ func GetAllCustomersController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Only Admin can Access", nil))
 	}
 
-	allCustomers, err := database.GetAllCustomers(&customers)
+	allCustomers, err := database.GetAllCustomerSimple(&customers)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("failed", nil))
