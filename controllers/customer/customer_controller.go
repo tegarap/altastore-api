@@ -1,6 +1,7 @@
 package customer
 
 import (
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/tegarap/altastore-api/lib/database"
 	"github.com/tegarap/altastore-api/lib/middleware"
@@ -44,12 +45,10 @@ func GetCustomerProfileController(c echo.Context) error {
 	id, isAdmin := middleware.ExtractToken(c)
 
 	if isAdmin == true {
-		customerId := c.QueryParam("customer")
-		getId, err := strconv.Atoi(customerId)
-
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, util.ResponseFail("Invalid", nil))
-		}
+		customerId := c.QueryParam("id")
+		getId, _ := strconv.Atoi(customerId)
+		fmt.Println("--------------------------------------------")
+		fmt.Println(getId)
 
 		customer, err1 := database.GetCustomerProfile(getId)
 
