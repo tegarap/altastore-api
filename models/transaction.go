@@ -7,8 +7,8 @@ import (
 type Transactions struct {
 	ID                 uint       `gorm:"primarykey"`
 	CustomersID        uint       `json:"customer_id"`
-	PaymentsID         uint       `json:"payments_id"`
-	CartsID            uint       `json:"carts_id"`
+	PaymentsID         uint       `json:"payments_id" form:"payments_id"`
+	CartsID            uint       `json:"carts_id" form:"carts_id"`
 	TotalPrice         int        `json:"total_price"`
 	TransactionsStatus string     `json:"transactions_status"`
 	TransactionsDate   time.Time  `json:"transactions_date"`
@@ -17,4 +17,3 @@ type Transactions struct {
 	UpdatedAt          time.Time  `gorm:"column:updated_at" json:"-"`
 	DeletedAt          *time.Time `gorm:"column:deleted_at" json:"-"`
 }
-//gorm:"type:enum('jne', 'pos', 'tiki');default:'jne'" json:"shipment"
