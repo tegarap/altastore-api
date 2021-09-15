@@ -11,6 +11,7 @@ was inspired by Model View Controller [MVC](https://en.wikipedia.org/wiki/Model%
 
 Where full URLs are provided in responses they will be rendered as if service is running on 'localhost'.
 
+##1. Routes
 ## Admin
 
 * [Register Admin](#) : `POST /admin/register`
@@ -68,3 +69,5 @@ Where full URLs are provided in responses they will be rendered as if service is
 * [Create Transaction](#) : `POST /transactions`
 * [Get Transaction](#) : `GET /transactions`
 
+2See Report Coverage
+![alt text](https://github.com/tegarap/altastore-api/blob/development/coveraageout.png?raw=true)
