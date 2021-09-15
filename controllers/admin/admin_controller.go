@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/tegarap/altastore-api/lib/database"
 	"github.com/tegarap/altastore-api/lib/middleware"
@@ -28,7 +27,6 @@ func RegisterAdminController(c echo.Context) error {
 	c.Bind(&regAdmin)
 
 	if regAdmin.Name == "" || regAdmin.Email == "" || regAdmin.Password == "" {
-		fmt.Println(regAdmin)
 		return c.JSON(http.StatusBadRequest, util.ResponseFail("Field are Required", nil))
 	}
 
