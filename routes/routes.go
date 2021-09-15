@@ -75,9 +75,9 @@ func New() *echo.Echo {
 	//---------------------------------------
 	//	CART DETAILS
 	//---------------------------------------
-	jwtAuth.POST("/add/products", cart.AddProductOnCart)
-	jwtAuth.PUT("/edit/products/:id", cart.UpdatedProductOnCartController)
-	jwtAuth.DELETE("/delete/products/:id", cart.DeleteProductOnCartController)
+	jwtAuth.POST("/carts/products", cart.AddProductOnCart)
+	jwtAuth.PUT("/carts/products/:id", cart.UpdatedProductOnCartController)
+	jwtAuth.DELETE("/carts/products/:id", cart.DeleteProductOnCartController)
 
 	//---------------------------------------
 	//	TRANSACTIONS
