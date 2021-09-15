@@ -6,6 +6,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/labstack/echo/v4 v4.5.0
 	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/stretchr/testify v1.4.0 // indirect
 	github.com/tegarap/jsonres v0.0.0-20210908062238-36383e86c10e
 	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
 	golang.org/x/net v0.0.0-20210908191846-a5e095526f91 // indirect

@@ -67,3 +67,4 @@ Where full URLs are provided in responses they will be rendered as if service is
 
 * [Create Transaction](#) : `POST /transactions`
 * [Get Transaction](#) : `GET /transactions`
+
