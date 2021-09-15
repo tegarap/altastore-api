@@ -53,18 +53,18 @@ Where full URLs are provided in responses they will be rendered as if service is
 * [Create New Cart](#) : `POST /carts`
 * [Get All Cart](#) : `GET /carts`
 * [Get Single Cart](#) : `GET /carts/:id`
-* 
-`.... dst`
+* [Get All Customer Cart](#) : `GET /customers/carts`
+* [Get Single Customer Cart](#) : `GET /customers/carts/:id`
+* [Delete Customer Cart](#) : `DELETE /carts/:id`
 
 ## Cart Details
 
-* [Add Product on Cart](#) : `POST /add/products`
-* [Get All Cart Detail](#) : `GET /carts/detail`
-* [Get Single Cart Detail](#) : `GET /carts/detail/:id`
-* [Update Products on Cart](#) : `PUT /edit/prouducts/:id`
-* [Delete Products on Cart](#) : `DELETE /delete/products/:id`
+* [Add Product on Cart](#) : `POST /carts/products`
+* [Update Products on Cart](#) : `PUT /carts/prouducts/:id`
+* [Delete Products on Cart](#) : `DELETE /carts/products/:id`
 
 ## Transactions
 
 * [Create Transaction](#) : `POST /transactions`
 * [Get Transaction](#) : `GET /transactions`
+
